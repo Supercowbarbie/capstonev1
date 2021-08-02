@@ -1,9 +1,11 @@
+// OPTIONS: 1-10 days, 
+// DISPLAY: 1-10 days == user selection, 
 // import { useState } from 'react';
-import axiosInstance from './helpers/axios';
+import axiosInstance from '../helpers/axios';
 
 const axios = require('axios');
 
-const Try = () => {
+const WeatherSummary = () => {
     axios
     .get(`${ axiosInstance.baseURL }/forecast.json?key=${ axiosInstance.key }&q=${ axiosInstance.q }&days=${ axiosInstance.days }&aqi=yes&alerts=yes`)
 
@@ -29,4 +31,4 @@ const Try = () => {
 
 
 
-export default Try;
+export default WeatherSummary;
