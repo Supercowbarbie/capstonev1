@@ -1,6 +1,6 @@
 // import './App.css';
 import WeatherSummary from './components/WeatherSummary';
-const axios = require('axios');
+// const axios = require('axios');
 
 
 
