@@ -1,4 +1,5 @@
 // import './App.css';
+import CurrentDay from './components/APIpulls/CurrentDay';
 import ForecastCard from './components/displayContainers/ForecastCard';
 import WeatherSummary from './components/displayContainers/WeatherSummary';
 // const axios = require('axios');
@@ -21,7 +22,8 @@ function App() {
       </label> */}
       
         {/* <WeatherSummary /> */}
-        <ForecastCard />
+        < CurrentDay />
+        
       </main>
       <footer>
         Page created by Marisa Morales

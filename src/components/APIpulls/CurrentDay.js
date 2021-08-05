@@ -5,40 +5,45 @@
 // forecast.forecastday.day: .maxtemp_f:max, .mintemp_f:min temp, .maxwind_mph:max
 // .daily_chance_of_rain:chance of rain, .daily_chance_of_snow:chance of snow,
 // forecast.forecastday.astro.sunset: sunset time
-import axios from "axios";
+
 import React, { useState } from "react";
+
+const axios = require('axios').default;
 
 const CurrentDay = () => {
     let [responseObj, setResponseObj] = useState({});
 
     function getCurrentDay() {
-        const options = {
-            method: 'GET',
-            url: 'https://community-open-weather-map.p.rapidapi.com/weather',
-            params: {
-            q: '98112',
-            lat: '0',
-            lon: '0',
-            callback: 'test',
-            id: '2172797',
-            lang: 'null',
-            units: '"metric" or "imperial"',
-            mode: 'xml, html'
-            },
-            headers: {
-                'x-rapidapi-key': 'c24d5179abmsh7b32c7ab02c3f79p12c352jsn6cbfe06ce018',
-                'x-rapidapi-host': 'community-open-weather-map.p.rapidapi.com'
-            }
-        };
+        // const options = {
+        //     // method: 'GET',
+        //     url: 'https://community-open-weather-map.p.rapidapi.com/weather',
+        //     params: {
+        //     q: '98112',
+        //     cnt: '6',
+        //     units: 'imperial',
+        //     appid: '0a163add85e60a0531c030e8d65a53b7'
+        //     }
+        // };
         axios
-        .request(options)
+        .get(`https://api.openweathermap.org/data/2.5/weather?q=98112&appid=${process.env.REACT_APP_OPEN_API_KEY}&cnt=6&units=imperial`)
         .then(function (response) {
             console.log(response.data);
-            setResponseObj(response);
+            setResponseObj({
+                lon: response.data.coord.lon,
+                lat: response.data.coord.lat,
+                currentTemp: response.data.main.temp,
+                humidity: response.data.main.humidity,
+                visibility: response.data.visibility,
+                windSpeed: response.data.wind.speed,
+                // needs to be translated into direction
+                windDegree: response.data.wind.deg,
+            });
         }).catch(function (error) {
             console.error(error);
         });
+        
     }
+
     return (
         <div>
         <h2>Today's Weather</h2>
