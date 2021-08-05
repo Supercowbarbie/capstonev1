@@ -1,5 +1,6 @@
 // import './App.css';
 import CurrentDay from './components/APIpulls/CurrentDay';
+import Forecast from './components/APIpulls/Forecast';
 import ForecastCard from './components/displayContainers/ForecastCard';
 import WeatherSummary from './components/displayContainers/WeatherSummary';
 // const axios = require('axios');
@@ -23,6 +24,8 @@ function App() {
       
         {/* <WeatherSummary /> */}
         < CurrentDay />
+        < Forecast /> 
+        {/* <ForecastCard /> */}
         
       </main>
       <footer>

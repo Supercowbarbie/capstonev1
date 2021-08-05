@@ -5,7 +5,7 @@
 // forecast.forecastday.day: .maxtemp_f:max, .mintemp_f:min temp, .maxwind_mph:max
 // .daily_chance_of_rain:chance of rain, .daily_chance_of_snow:chance of snow,
 // forecast.forecastday.astro.sunset: sunset time
-
+import ForecastCard from "../displayContainers/ForecastCard";
 import React, { useState } from "react";
 
 const axios = require('axios').default;
@@ -28,6 +28,7 @@ const CurrentDay = () => {
         .get(`https://api.openweathermap.org/data/2.5/weather?q=98112&appid=${process.env.REACT_APP_OPEN_API_KEY}&cnt=6&units=imperial`)
         .then(function (response) {
             console.log(response.data);
+            let currentForecast = response.data
             setResponseObj({
                 lon: response.data.coord.lon,
                 lat: response.data.coord.lat,
@@ -41,6 +42,10 @@ const CurrentDay = () => {
         }).catch(function (error) {
             console.error(error);
         });
+    
+    let convertDateTime = () => {
+        // function that converts UNIX Time Stamp to regular date and time
+    }
         
     }
 
@@ -51,6 +56,9 @@ const CurrentDay = () => {
             {JSON.stringify(responseObj)}
         </div>
         <button onClick={getCurrentDay}>Get Forecast</button>
+        <ForecastCard
+                responseObj={responseObj}
+                />
     </div>
     )
 

@@ -2,11 +2,13 @@ import React from 'react'
 import { Button, Card, Image } from 'semantic-ui-react'
 
 const ForecastCard = (props) => {
+    console.log(props)
+    return (
     <Card.Group>
         <Card>
         <Card.Content>
             
-            <Card.Header>Monday 6/19</Card.Header>
+            <Card.Header>Today</Card.Header>
             <Image
             floated='right'
             size='mini'
@@ -15,7 +17,7 @@ const ForecastCard = (props) => {
             <Card.Meta>Today is a great day for kayaking</Card.Meta>
             <Card.Description>
             Today is 
-            The temperature is:
+            The temperature is: {props.responseObj.currentTemp}
             <br/>
             Wind info (speed + direction): 
             <br/>
@@ -44,6 +46,7 @@ const ForecastCard = (props) => {
         </Card>
     </Card.Group>
     
-}
+)}
+
 
 export default ForecastCard;

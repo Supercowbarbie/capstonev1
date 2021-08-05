@@ -33,7 +33,7 @@ function getForecast(e) {
         "method": "GET",
         "headers": {
             "x-rapidapi-host": 'community-open-weather-map.p.rapidapi.com',
-            "x-rapidapi-key": `${process.env.REACT_APP_API_KEY}`
+            "x-rapidapi-key": `${process.env.REACT_APP_RAPID_API_KEY}`
             
         }
     })

@@ -9,12 +9,14 @@ import ForecastCard from "./ForecastCard";
 // const axios = require('axios');
 
 const WeatherSummary = () => {
+    // map each day from forecast into each forecastCard
+    // create a function that renders multiple forecast cards 
     
 
     return (
         <div>
             
-            <ForecastCard/>
+            <ForecastCard  />
 
         </div>
         
