@@ -2,7 +2,7 @@
 // DISPLAY: 1-10 days == user selection, 
 // import { useState } from 'react';
 // import axiosInstance from '../helpers/axios';
-import Forecast from "./Forecast";
+import Forecast from "../APIpulls/Forecast";
 
 // const axios = require('axios');
 

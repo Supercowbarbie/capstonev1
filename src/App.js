@@ -1,5 +1,6 @@
 // import './App.css';
-import WeatherSummary from './components/WeatherSummary';
+import ForecastCard from './components/displayContainers/ForecastCard';
+import WeatherSummary from './components/displayContainers/WeatherSummary';
 // const axios = require('axios');
 
 
@@ -19,7 +20,8 @@ function App() {
           onChange={e => setLocationSearch(e.target.value)}/>
       </label> */}
       
-        <WeatherSummary />
+        {/* <WeatherSummary /> */}
+        <ForecastCard />
       </main>
       <footer>
         Page created by Marisa Morales

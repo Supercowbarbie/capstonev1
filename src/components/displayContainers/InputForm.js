@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import Conditions from './Conditions';
+import ForecastCard from './displayContainers/ForecastCard';
 import {
     textInput,
     Radio,
     Button
 } from './Forecast.css';
 
-const Forecast = () => {
-
+const InputForm = () => {
+    // 
     let [city, setCity] = useState('');
     let [unit, setUnit] = useState('imperial');
     let [responseObj, setResponseObj] = useState({});
@@ -34,7 +34,7 @@ function getForecast(e) {
         "headers": {
             "x-rapidapi-host": 'community-open-weather-map.p.rapidapi.com',
             "x-rapidapi-key": `${process.env.REACT_APP_API_KEY}`
-            // 'c24d5179abmsh7b32c7ab02c3f79p12c352jsn6cbfe06ce018' 
+            
         }
     })
     .then(response => response.json())
@@ -43,7 +43,6 @@ function getForecast(e) {
         if (response.cod !== 200) {
             throw new Error()
         }
-
         setResponseObj(response);
         setLoading(false);
     })
@@ -57,6 +56,7 @@ function getForecast(e) {
     return (
         <div>
             <h2>Find Current Weather Conditions</h2>
+            {/* Add conditions to filter here */}
             <form onSubmit={getForecast}>
                 <input
                     type="text"
@@ -86,10 +86,10 @@ function getForecast(e) {
                         />
                     Celcius
                 </label>
-
+                
                 <button className={Button} type="submit">Get Forecast</button>
             </form>
-            <Conditions
+            <ForecastCard
                 responseObj={responseObj}
                 error={error}
                 loading={loading}
@@ -98,4 +98,4 @@ function getForecast(e) {
     )
 }
 
-export default Forecast;
+export default InputForm;
