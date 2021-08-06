@@ -3,7 +3,7 @@
 // import { useState } from 'react';
 // import axiosInstance from '../helpers/axios';
 import CurrentDay from "../APIpulls/CurrentDay";
-import Forecast from "../APIpulls/Forecast";
+import Forecast from "../APIpulls/ForecastDay";
 import ForecastCard from "./ForecastCard";
 
 // const axios = require('axios');
@@ -17,6 +17,7 @@ const WeatherSummary = () => {
         <div>
             
             <ForecastCard  />
+            {/* <button onClick={getCurrentDay}>Get Forecast</button> */}
 
         </div>
         

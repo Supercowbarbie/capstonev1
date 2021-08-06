@@ -1,16 +1,24 @@
 // import './App.css';
+import React, { useState } from 'react';
 import CurrentDay from './components/APIpulls/CurrentDay';
-import Forecast from './components/APIpulls/Forecast';
+import Forecast from './components/APIpulls/ForecastDay';
 import ForecastCard from './components/displayContainers/ForecastCard';
+import InputForm from './components/displayContainers/InputForm';
 import WeatherSummary from './components/displayContainers/WeatherSummary';
 // const axios = require('axios');
 
 
+const App = () => {
 
-function App() {
-  // State
-  // const [locationSearch, setLocationSearch] = useState('');
+  const convertDateTime = () => {
+    // function that converts UNIX Time Stamp to regular date and time
+  }
 
+  const converstWindDirection = () => {
+    // function that converst wind degrees to direction
+
+  }
+  
   return (
     <div className="App">
       <header className="App-header">
@@ -23,8 +31,8 @@ function App() {
       </label> */}
       
         {/* <WeatherSummary /> */}
-        < CurrentDay />
-        < Forecast /> 
+        {/* < CurrentDay /> */}
+        < InputForm /> 
         {/* <ForecastCard /> */}
         
       </main>

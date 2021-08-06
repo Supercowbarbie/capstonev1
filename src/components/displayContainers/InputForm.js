@@ -1,72 +1,49 @@
 import React, { useState } from 'react';
-import ForecastCard from './displayContainers/ForecastCard';
-import {
-    textInput,
-    Radio,
-    Button
-} from './Forecast.css';
+import CurrentDay from '../APIpulls/CurrentDay';
+import Forecast from '../APIpulls/ForecastDay';
+// import Forecast.css from '../APIpulls/Forecast';
+// import {
+//     textInput,
+//     Radio,
+//     Button
+// } from '../APIpulls/Forecast' 
+import PropTypes from 'prop-types';
 
 const InputForm = () => {
     // 
-    let [city, setCity] = useState('');
+    let [location, setLocation] = useState('');
     let [unit, setUnit] = useState('imperial');
-    let [responseObj, setResponseObj] = useState({});
     let [error, setError] = useState(false);
     let [loading, setLoading] = useState(false);
 
-function getForecast(e) {
-    e.preventDefault();
+    const getLocation = (e) => {
+        e.preventDefault();
 
-    if (city.length === 0) {
-        return setError(true);
+        if (location.length === 0) {
+            return setError(true);
+        }
+
+        // Clear state in preparation for new data
+        setError(false);    
+        setLoading(true);
+
     }
-
-    // Clear state in preparation for new data
-    setError(false);
-    setResponseObj({});
-    
-    setLoading(true);
-    
-    const uriEncodedCity = encodeURIComponent(city);
-
-    fetch(`https://community-open-weather-map.p.rapidapi.com/weather?units=${unit}&q=${uriEncodedCity}`, {
-        "method": "GET",
-        "headers": {
-            "x-rapidapi-host": 'community-open-weather-map.p.rapidapi.com',
-            "x-rapidapi-key": `${process.env.REACT_APP_API_KEY}`
-            
-        }
-    })
-    .then(response => response.json())
-    .then(response => {
-        console.log(response.data)
-        if (response.cod !== 200) {
-            throw new Error()
-        }
-        setResponseObj(response);
-        setLoading(false);
-    })
-    .catch(err => {
-        setError(true);
-        setLoading(false);
-        console.log(err.message);
-    });
-}
 
     return (
         <div>
             <h2>Find Current Weather Conditions</h2>
             {/* Add conditions to filter here */}
-            <form onSubmit={getForecast}>
+            {/* how do I have all the API calls work with this click? */}
+            <form onSubmit={getLocation}>
+            {/* <form onSubmit={ () props.onClickCallback()}> */}
                 <input
                     type="text"
-                    placeholder="Enter City"
+                    placeholder="Enter Location"
                     maxLength="50"
-                    className={textInput}
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
                     />
-                <label className={Radio}>
+                <label>
                     <input
                         type="radio"
                         name="units"
@@ -76,7 +53,7 @@ function getForecast(e) {
                         />
                     Fahrenheit
                 </label>
-                <label className={Radio}>
+                <label >
                     <input
                         type="radio"
                         name="units"
@@ -87,13 +64,17 @@ function getForecast(e) {
                     Celcius
                 </label>
                 
-                <button className={Button} type="submit">Get Forecast</button>
+                <button 
+                type="submit"
+                >
+                    Get Forecast
+                </button>
             </form>
-            <ForecastCard
-                responseObj={responseObj}
-                error={error}
-                loading={loading}
-                />
+            
+            < CurrentDay 
+            location= {location} 
+            unit= {unit} 
+            />
         </div>
     )
 }

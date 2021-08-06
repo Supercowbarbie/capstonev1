@@ -5,60 +5,75 @@
 // forecast.forecastday.day: .maxtemp_f:max, .mintemp_f:min temp, .maxwind_mph:max
 // .daily_chance_of_rain:chance of rain, .daily_chance_of_snow:chance of snow,
 // forecast.forecastday.astro.sunset: sunset time
-import ForecastCard from "../displayContainers/ForecastCard";
 import React, { useState } from "react";
+import InputForm from "../displayContainers/InputForm";
+import ForecastCard from "../displayContainers/ForecastCard";
+import ForecastDay from "./ForecastDay";
 
 const axios = require('axios').default;
 
-const CurrentDay = () => {
-    let [responseObj, setResponseObj] = useState({});
 
-    function getCurrentDay() {
-        // const options = {
-        //     // method: 'GET',
-        //     url: 'https://community-open-weather-map.p.rapidapi.com/weather',
-        //     params: {
-        //     q: '98112',
-        //     cnt: '6',
-        //     units: 'imperial',
-        //     appid: '0a163add85e60a0531c030e8d65a53b7'
-        //     }
-        // };
+const CurrentDay = ( {location, unit} ) => {
+    let [currentObj, setCurrentObj] = useState({});
+    // let location = '98112';
+    // let unit = 'imperial';
+    // let location = {props.location};
+    // let unit = {props.unit};
+
+    const getCurrentDay = (location, unit) => {
+        let currentWeather = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${process.env.REACT_APP_OPEN_API_KEY}&cnt=6&units=${unit}`
+
+        let currentAPI = `https://api.openweathermap.org/data/2.5/air_pollution?lat=47.6401&lon=-122.2832&appid=${process.env.REACT_APP_OPEN_API_KEY}`
+
         axios
-        .get(`https://api.openweathermap.org/data/2.5/weather?q=98112&appid=${process.env.REACT_APP_OPEN_API_KEY}&cnt=6&units=imperial`)
-        .then(function (response) {
-            console.log(response.data);
+        .get(currentWeather)
+        .then((response) => {
             let currentForecast = response.data
-            setResponseObj({
-                lon: response.data.coord.lon,
-                lat: response.data.coord.lat,
-                currentTemp: response.data.main.temp,
-                humidity: response.data.main.humidity,
-                visibility: response.data.visibility,
-                windSpeed: response.data.wind.speed,
+            let currentForecastObj = {
+                name: currentForecast.name,
+                lon: currentForecast.coord.lon,
+                lat: currentForecast.coord.lat,
+                dateTime: currentForecast.dt,
+                currentTemp: Math.round(currentForecast.main.temp),
+                feelsLike: Math.round(currentForecast.main.feels_like),
+                humidity: currentForecast.main.humidity,
+                // convert visibility to km or say meters
+                visibility: currentForecast.visibility,
+                windSpeed: currentForecast.wind.speed,
                 // needs to be translated into direction
-                windDegree: response.data.wind.deg,
+                windDegree: currentForecast.wind.deg,
+                sunset: currentForecast.sys.sunset,
+                description: currentForecast.weather[0].description,
+                icon: currentForecast.weather[0].icon
+            };
+            return currentForecastObj axios.get(currentAPI);
+        })
+        .then((response) => {
+            console.log(response.data)
+            let currentAPI = response.data;
+            setCurrentObj({
+                ...currentForecastObj,
+                aqi: response.data.list[0].main.aqi
             });
         }).catch(function (error) {
             console.error(error);
         });
+    }
     
-    let convertDateTime = () => {
-        // function that converts UNIX Time Stamp to regular date and time
-    }
-        
-    }
-
     return (
         <div>
         <h2>Today's Weather</h2>
         <div>
-            {JSON.stringify(responseObj)}
+            {JSON.stringify(currentObj)}
         </div>
-        <button onClick={getCurrentDay}>Get Forecast</button>
+        {/* <button onClick={getCurrentDay}>Get Forecast</button> */}
+
         <ForecastCard
-                responseObj={responseObj}
-                />
+            responseObj={currentObj}
+        />
+        <ForecastDay
+            responseObj={currentObj}
+        />
     </div>
     )
 
