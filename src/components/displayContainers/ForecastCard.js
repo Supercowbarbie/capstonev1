@@ -3,6 +3,22 @@ import { Button, Card, Image } from 'semantic-ui-react'
 
 const ForecastCard = (props) => {
     console.log(props)
+
+    let timeConvert = (timestamp) => {
+        // a function to convert UNIX timestamp to words
+        // timestamp = 1627797600
+        const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        
+        let date = new Date(timestamp*1000)
+
+        let formattedDate = {
+            weekDay: days[date.getDay()],
+            month: months[date.getMonth()],
+            numberDay: date.getDate()
+        }
+        return formattedDate
+    }
     return (
     <Card.Group>
         <Card>

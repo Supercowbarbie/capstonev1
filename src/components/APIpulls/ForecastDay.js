@@ -11,9 +11,9 @@ const axios = require('axios').default;
 const ForecastDay = (props) => {
     let [responseObj, setResponseObj] = useState({});
 
-    let lon = {props.lon}
-    let lat = {props.lat}
-    let unit
+    // let lon = {props.lon}
+    // let lat = {props.lat}
+    // let unit
 
 
     function getForecastDay() {
