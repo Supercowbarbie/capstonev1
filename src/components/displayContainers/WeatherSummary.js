@@ -2,8 +2,6 @@
 // DISPLAY: 1-10 days == user selection, 
 // import { useState } from 'react';
 // import axiosInstance from '../helpers/axios';
-import CurrentDay from "../APIpulls/CurrentDay";
-import Forecast from "../APIpulls/ForecastDay";
 import ForecastCard from "./ForecastCard";
 
 // const axios = require('axios');

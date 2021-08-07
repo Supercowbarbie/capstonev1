@@ -3,14 +3,17 @@ import React, { useState } from 'react';
 import ForecastCard from './components/displayContainers/ForecastCard';
 import InputForm from './components/displayContainers/InputForm';
 import WeatherSummary from './components/displayContainers/WeatherSummary';
+
 const axios = require('axios').default;
 
 const App = () => {
   // State
   let [currentObj, setCurrentObj] = useState({});
   let [forecastObj, setForecastObj] = useState({});
+  let [location, setLocation] = useState('');
+  let [unit, setUnit] = useState('imperial');
 
-  const processInputData = () => {
+  const processInputData = (inputObj) => {
     // function to pass the input data along to currentDayInfo and forecastDayInfo when "Get Forecast" button is clicked in InputForm
   }
   
@@ -19,7 +22,7 @@ const App = () => {
   
   }
   
-  const currentDayInfo = () => {
+  const currentDayInfo = (location) => {
     // A function to gather current day weather and AQI
     let currentWeather = `https://api.openweathermap.org/data/2.5/weather?q=98112&appid=${process.env.REACT_APP_OPEN_API_KEY}&cnt=6&units=imperial`
   
@@ -131,7 +134,7 @@ const App = () => {
       </label> */}
       
         {/* <WeatherSummary /> */}
-        {/* < InputForm />  */}
+        < InputForm onClickCallback= { processInputData }/> 
         {/* <ForecastCard /> */}
         
       </main>
