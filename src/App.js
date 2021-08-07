@@ -1,8 +1,7 @@
 // import './App.css';
 import React, { useState } from 'react';
-import ForecastCard from './components/displayContainers/ForecastCard';
-import InputForm from './components/displayContainers/InputForm';
-import WeatherSummary from './components/displayContainers/WeatherSummary';
+import FormTrials from './components/FormTrails';
+import 'semantic-ui-react'
 
 const axios = require('axios').default;
 
@@ -134,7 +133,8 @@ const App = () => {
       </label> */}
       
         {/* <WeatherSummary /> */}
-        < InputForm onClickCallback= { processInputData }/> 
+        < FormTrials />
+        {/* < InputForm onClickCallback= { processInputData }/>  */}
         {/* <ForecastCard /> */}
         
       </main>

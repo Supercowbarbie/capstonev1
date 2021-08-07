@@ -1,4 +1,4 @@
-import React, { useState  } from 'react';
+import React, { useState, Component } from 'react';
 import {
     Button,
     Checkbox,
@@ -8,11 +8,9 @@ import {
 } from 'semantic-ui-react'
 
 
-const InputForm = (props) => {
-    // 
-    // let [location, setLocation] = useState('');
-    // let [unit, setUnit] = useState('imperial');
-    let [inputObj, setInputObj] = useState({
+class FormTrials extends Component {
+
+    state = {
         location: "",
         minTemp: "",
         maxTemp: "",
@@ -24,23 +22,14 @@ const InputForm = (props) => {
         humidity: false,
         visibility: false,
         sunset: false
-    })
-    let [error, setError] = useState(false);
-    let [loading, setLoading] = useState(false);
+    }
 
-    // const buildInputObj = (event) => {
-    //     event.preventDefault();
-
-    //     if (location.length === 0) {
-    //         return setError(true);
-    //     }
-    //     // Clear state in preparation for new data
-    //     setError(false);    
-    //     setLoading(true);
-    // }
-
-    return (
-    // render(
+    // handleChange = (event, { value }) => this.setState({ value })
+    
+    render() {
+        // const { value } = this.state
+        
+        return (
         <Form>
             <Form.Field 
                 control={Input}
@@ -48,7 +37,7 @@ const InputForm = (props) => {
                 label='Location'
                 placeholder='Enter activity location'
                 // width={15}
-                onChange={(event) => setInputObj({location:event.target.value})}
+                onChange={(event, { value }) => this.setState({location: value })}
                 />
             <br></br>
             <Form.Group widths='equal'>
@@ -57,22 +46,22 @@ const InputForm = (props) => {
                 control={Radio}
                 label='Imperial'
                 value='imperial'
-                checked={inputObj.unit === "imperial"}
-                onChange={(event) => setInputObj({unit: event.target.value})}
+                checked={this.state.unit === "imperial"}
+                onChange={this.handleChange}
                 />
                 <Form.Field
                 control={Radio}
                 label='Metric'
                 value='metric'
-                checked={inputObj.unit === 'metric'}
-                onChange={(event) => setInputObj({unit: event.target.value})}
+                checked={this.state.unit === 'metric'}
+                // onChange={this.handleChange}
                 />
                 <Form.Field
                 control={Radio}
                 label='Standard'
                 value='standard'
-                checked={inputObj.unit === 'standard'}
-                onChange={(event) => setInputObj({unit: event.target.value})}
+                checked={this.state.unit === 'standard'}
+                // onChange={this.handleChange}
                 />
             </Form.Group>
             <br></br>
@@ -83,14 +72,14 @@ const InputForm = (props) => {
                 // label='Minimum Temperature'
                 placeholder='Min Temp'
                 // width={2}
-                onChange={(event) => setInputObj({minTemp: event.target.value})}
+                // onChange={this.handleChange}
                 />
                 <Form.Field
                 control={Input}
                 // label='Maximum Temperature'
                 placeholder='Max Temp'
                 // width={2}
-                onChange={(event) => setInputObj({maxTemp: event.target.value})}
+                // onChange={this.handleChange}
                 />
             </Form.Group>
             <br></br>
@@ -99,12 +88,12 @@ const InputForm = (props) => {
                 <Form.Field
                 control={Input}
                 placeholder='Min Wind Speed'
-                onChange={(event) => setInputObj({mixWind: event.target.value})}
+                // onChange={this.handleChange}
                 />
                 <Form.Field
                 control={Input}
                 placeholder='Max Wind Speed'
-                onChange={(event) => setInputObj({maxWind: event.target.value})}
+                // onChange={this.handleChange}
                 />
             </ Form.Group >
             <br></br>
@@ -116,12 +105,12 @@ const InputForm = (props) => {
                 <Form.Field
                 control={Input}
                 placeholder='0 = Good'
-                onChange={(event) => setInputObj({minAPI: event.target.value})}
+                // onChange={this.handleChange}
                 />
                 <Form.Field
                 control={Input}
                 placeholder='200 = Unhealthy'
-                onChange={(event) => setInputObj({maxAPI: event.target.value})}
+                // onChange={this.handleChange}
                 />
             </ Form.Group >
             <br></br>
@@ -130,29 +119,29 @@ const InputForm = (props) => {
                 control={Checkbox}
                 toggle
                 label='Show Sunset Time'
-                checked={inputObj.sunset === true}
-                onChange={(event) => setInputObj({sunset: event.target.value})}
+                checked={this.state.sunset === true}
+                // onChange={this.handleChange}
                 />
                 <Form.Field
                 control={Checkbox}
                 toggle
                 label='Show Humidity'
-                checked={inputObj.humidity === true}
-                onChange={(event) => setInputObj({humidity: event.target.value})}
+                checked={this.state.humidity === true}
+                // onChange={this.handleChange}
                 />
                 <Form.Field
                 control={Checkbox}
                 toggle
                 label='Show Visibility'
-                checked={inputObj.visibility === true}
-                onChange={(event) => setInputObj({visibility: event.target.value})}
+                checked={this.state.visibility === true}
+                // onChange={this.handleChange}
                 />
             </ Form.Group >
                 <br></br>
             <Form.Field control={Button}>Get Forecast</Form.Field>
             </Form>
         )
-    
+    }
 };
 
-export default InputForm;
+export default FormTrials;
