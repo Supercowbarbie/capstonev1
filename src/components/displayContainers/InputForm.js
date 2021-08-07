@@ -147,52 +147,6 @@ const InputForm = (props) => {
             <Form.Field control={Button}>Submit</Form.Field>
             </Form>
         )
-
-    // return (
-    //     <div>
-    //         <h2>Find Current Weather Conditions</h2>
-    //         {/* Add conditions to filter here */}
-    //         {/* <form onSubmit={getLocation}> */}
-    //         <form onSubmit={ () => props.onClickCallback(inputObj) }>
-    //             <input
-    //                 type="text"
-    //                 placeholder="Enter Location"
-    //                 maxLength="50"
-    //                 value={location}
-//                     onChange={(event) => setInputObj.location(event.target.value)}
-    //                 // onChange={(event) => setLocation(event.target.value)}
-    //                 />
-    //             <label>
-    //                 <input
-    //                     type="radio"
-    //                     name="units"
-    //                     checked={unit === "imperial"}
-    //                     value="imperial"
-    //                     onChange={(event) => setInputObj.unit(event.target.value)}
-    //                     // onChange={(event) => setUnit(event.target.value)}
-    //                     />
-    //                 Fahrenheit
-    //             </label>
-    //             <label >
-    //                 <input
-    //                     type="radio"
-    //                     name="units"
-    //                     checked={unit === "metric"}
-    //                     value="metric"
-    //                     onChange={(event) => setInputObj.unit(event.target.value)}
-    //                     // onChange={(event) => setUnit(event.target.value)}
-    //                     />
-    //                 Celcius
-    //             </label>
-                
-    //             <button 
-    //             type="submit"
-    //             >
-    //                 Get Forecast
-    //             </button>
-    //         </form>
-    //     </div>
-    // )
 }
 
 export default InputForm;
