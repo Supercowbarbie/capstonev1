@@ -1,7 +1,6 @@
 // import './App.css';
 import React, { useState } from 'react';
 import FormTrials from './components/FormTrails';
-import 'semantic-ui-react'
 
 const axios = require('axios').default;
 
@@ -72,7 +71,9 @@ const App = () => {
     // a function using lon & lat from currentDayInfo to get a forecast up to 7 days in the future
     let lat = currentObj.lat
     let lon = currentObj.lon
+
     let forecastWeather = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly&units=imperial&appid=${process.env.REACT_APP_OPEN_API_KEY}`
+
     let forecastAQI = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${process.env.REACT_APP_OPEN_API_KEY}`
 
     let futureForecastObj;
@@ -81,28 +82,26 @@ const App = () => {
     .get(forecastWeather)
     .then((response) => {
         let futureForecast = response.data.daily
+        let currentAlerts = response.data.alerts
 
   // create a loop to unpack each day into the obj
-  // for i in range(len(futureForecast)) futureForecastObj ={dayi+1: {}}
-        futureForecastObj = {
-          Day1: {
-            dateTime: futureForecast[0].dt,
-            sunset: futureForecast[0].sunset,
-            minTemp: futureForecast[0].temp.min,
-            maxTemp: futureForecast[0].temp.max,
-            humidity: futureForecast[0].humidity,
-            windSpeed: futureForecast[0].wind_speed,
-            windDegree: futureForecast[0].wind_deg,
-            description: futureForecast[0].weather.description,
-            icon: futureForecast[0].weather.icon, 
-          },
-          Day2: {},
-          Day3: {},
-          Day4: {},
-          Day5: {}
+        let futureForecastObj = {};
 
-            
-        };
+        for (let i=0; i < futureForecast.length; i++) {
+          futureForecastObj[i] =
+          {dateTime: futureForecast[i].dt,
+            sunset: futureForecast[i].sunset,
+            minTemp: futureForecast[i].temp.min,
+            maxTemp: futureForecast[i].temp.max,
+            humidity: futureForecast[i].humidity,
+            windSpeed: futureForecast[i].wind_speed,
+            windDegree: futureForecast[i].wind_deg,
+            description: futureForecast[i].weather.description,
+            icon: futureForecast[i].weather.icon,
+          } ;
+        }
+        futureForecastObj['alerts'] = currentAlerts;
+  
         return axios.get(forecastAQI);
     })
     .then((response) => {
