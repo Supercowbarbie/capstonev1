@@ -39,6 +39,15 @@ const InputForm = (props) => {
     //     setLoading(true);
     // }
 
+    const clickButtonDeal = (obj) => {
+        console.log(obj);
+        return props.onClickCallback(obj);
+    }
+
+
+    const handleChange = (e, {value}) => setInputObj({value})
+    const {value} = inputObj;
+
     return (
     // render(
         <Form>
@@ -48,6 +57,7 @@ const InputForm = (props) => {
                 label='Location'
                 placeholder='Enter activity location'
                 // width={15}
+                value = {inputObj.location}
                 onChange={(event) => setInputObj({location:event.target.value})}
                 />
             <br></br>
@@ -57,22 +67,22 @@ const InputForm = (props) => {
                 control={Radio}
                 label='Imperial'
                 value='imperial'
-                checked={inputObj.unit === "imperial"}
-                onChange={(event) => setInputObj({unit: event.target.value})}
+                checked={value === "imperial"}
+                onChange={handleChange}
                 />
                 <Form.Field
                 control={Radio}
                 label='Metric'
                 value='metric'
-                checked={inputObj.unit === 'metric'}
-                onChange={(event) => setInputObj({unit: event.target.value})}
+                checked={value === "metric"}
+                onChange={handleChange}
                 />
                 <Form.Field
                 control={Radio}
                 label='Standard'
                 value='standard'
-                checked={inputObj.unit === 'standard'}
-                onChange={(event) => setInputObj({unit: event.target.value})}
+                checked={value === "standard"}
+                onChange={handleChange}
                 />
             </Form.Group>
             <br></br>
@@ -149,10 +159,17 @@ const InputForm = (props) => {
                 />
             </ Form.Group >
                 <br></br>
-            <Form.Field control={Button}>Get Forecast</Form.Field>
+            <Form.Field 
+            control={Button}
+            onClick={ () => clickButtonDeal(inputObj) }
+            >
+                Get Forecast
+                </Form.Field>
+
             </Form>
         )
     
 };
 
 export default InputForm;
+
