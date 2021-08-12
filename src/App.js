@@ -57,6 +57,7 @@ const App = () => {
         });
         //this promise is just missing a return statement
         console.log(currentObj)
+        forecastDayInfo(currentForecastObj.lon, currentForecastObj.lat, unit)
         return currentObj;
     }).catch(function (error) {
         console.error(error);
@@ -129,7 +130,7 @@ const App = () => {
     let unit = inputObj.unit
 
     currentDayInfo(location, unit)
-    forecastDayInfo(currentObj.lon, currentObj.lat, currentObj.unit)
+    // forecastDayInfo(currentObj.lon, currentObj.lat, currentObj.unit)
   }
   
   return (
@@ -138,10 +139,6 @@ const App = () => {
         <h1>Can I play outside?</h1>
       </header>
       <main>
-      {/* <label>
-        Location <input type="text" value={locationSearch}
-          onChange={e => setLocationSearch(e.target.value)}/>
-      </label> */}
       
         {/* <WeatherSummary /> */}
         {/* < FormTrials /> */}

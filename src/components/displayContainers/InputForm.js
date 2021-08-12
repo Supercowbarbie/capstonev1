@@ -25,8 +25,8 @@ const InputForm = (props) => {
         visibility: false,
         sunset: false
     })
-    let [error, setError] = useState(false);
-    let [loading, setLoading] = useState(false);
+    // let [error, setError] = useState(false);
+    // let [loading, setLoading] = useState(false);
 
     // const buildInputObj = (event) => {
     //     event.preventDefault();
@@ -39,18 +39,21 @@ const InputForm = (props) => {
     //     setLoading(true);
     // }
 
-    const clickButtonDeal = (obj) => {
-        console.log(obj);
-        return props.onClickCallback(obj);
+    // const clickButtonDeal = (obj) => {
+    //     console.log(obj);
+    //     return props.onClickCallback(obj);
+    // }
+
+
+    const clickButtonDeal = (event, obj) => {
+        event.preventDefault();
+        console.log(inputObj);
+        props.onClickCallback(inputObj);
     }
 
-
-    const handleChange = (e, {value}) => setInputObj({value})
-    const {value} = inputObj;
-
     return (
-    // render(
-        <Form>
+        <Form
+        onSubmit={ clickButtonDeal }>
             <Form.Field 
                 control={Input}
                 required
@@ -58,7 +61,8 @@ const InputForm = (props) => {
                 placeholder='Enter activity location'
                 // width={15}
                 value = {inputObj.location}
-                onChange={(event) => setInputObj({location:event.target.value})}
+                // onChange={(event) => setInputObj({location:event.target.value})}
+                onChange={(event) => setInputObj({...inputObj, location:event.target.value})}
                 />
             <br></br>
             <Form.Group widths='equal'>
@@ -67,22 +71,25 @@ const InputForm = (props) => {
                 control={Radio}
                 label='Imperial'
                 value='imperial'
-                checked={value === "imperial"}
-                onChange={handleChange}
+                name='imperial'
+                checked={inputObj.unit  === "imperial"}
+                onChange={(event) => setInputObj({...inputObj, unit: 'imperial'})}
                 />
                 <Form.Field
                 control={Radio}
                 label='Metric'
                 value='metric'
-                checked={value === "metric"}
-                onChange={handleChange}
+                name='metric'
+                checked={inputObj.unit  === "metric"}
+                onChange={(event) => setInputObj({...inputObj, unit: 'metric'})}
                 />
                 <Form.Field
                 control={Radio}
                 label='Standard'
                 value='standard'
-                checked={value === "standard"}
-                onChange={handleChange}
+                name='standard'
+                checked={inputObj.unit === "standard"}
+                onChange={(event) => setInputObj({...inputObj, unit: 'standard'})}
                 />
             </Form.Group>
             <br></br>
@@ -159,11 +166,15 @@ const InputForm = (props) => {
                 />
             </ Form.Group >
                 <br></br>
-            <Form.Field 
+            {/* <Form.Field 
             control={Button}
             onClick={ () => clickButtonDeal(inputObj) }
-            >
-                Get Forecast
+            > */}
+                <Form.Field>
+                <Button type='submit'>
+                    Get Forecast
+                </Button>
+                
                 </Form.Field>
 
             </Form>
