@@ -19,6 +19,11 @@ const ForecastCard = (props) => {
         }
         return formattedDate
     }
+
+    const convertWindDirection = () => {
+        // function that converts wind degrees to direction
+
+    }
     return (
     <Card.Group>
         <Card>
@@ -32,20 +37,18 @@ const ForecastCard = (props) => {
             />
             <Card.Meta>Today is a great day for kayaking</Card.Meta>
             <Card.Description>
-            Today is 
-            The temperature is: {props.responseObj.currentTemp}
+            Today is {props.currentDay.dateTime}
+            The temperature is: {props.currentDay.currentTemp}
             <br/>
-            Wind info (speed + direction): 
+            Wind info (speed + direction): {props.currentDay.windSpeed} {props.currentDay.windDegree}
             <br/>
-            Air quality is:
+            Air quality is: {props.currentDay.airQuality}
             <br/>
-            Visibility:
+            Visibility: {props.currentDay.visibility}
             <br/>
-            UV index:
+            Humidity: {props.currentDay.humidity}
             <br/>
-            Humidity: 
-            <br/>
-            Sunset is at:
+            Sunset is at: {props.currentDay.sunset}
 
             </Card.Description>
         </Card.Content>

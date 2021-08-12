@@ -6,6 +6,7 @@ import {
     Input,
     Radio,
 } from 'semantic-ui-react'
+import WeatherSummary from './WeatherSummary';
 
 
 const InputForm = (props) => {
@@ -52,6 +53,7 @@ const InputForm = (props) => {
     }
 
     return (
+        <div>
         <Form
         onSubmit={ clickButtonDeal }>
             <Form.Field 
@@ -178,8 +180,13 @@ const InputForm = (props) => {
                 </Form.Field>
 
             </Form>
+            
+            <WeatherSummary 
+            currentDay={props.currentDay} 
+            forecastInfo={props.forecastInfo}
+            inputParams={ inputObj} />
+            </div>
         )
-    
 };
 
 export default InputForm;

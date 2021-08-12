@@ -6,7 +6,7 @@ import ForecastCard from "./ForecastCard";
 
 // const axios = require('axios');
 
-const WeatherSummary = () => {
+const WeatherSummary = (props) => {
     // map each day from forecast into each forecastCard
     // create a function that renders multiple forecast cards 
     
@@ -14,8 +14,10 @@ const WeatherSummary = () => {
     return (
         <div>
             
-            <ForecastCard  />
-            {/* <button onClick={getCurrentDay}>Get Forecast</button> */}
+            <ForecastCard 
+            currentDay={props.currentDay} 
+            forecastInfo={props.forecastInfo}
+            inputParams={ props.inputParams} />
 
         </div>
         
