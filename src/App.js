@@ -9,6 +9,7 @@ const App = () => {
   // State
   let [currentObj, setCurrentObj] = useState({});
   let [forecastObj, setForecastObj] = useState({});
+  let [forecastDisplay, setForecastDisplay] = useState(false);
 
   let forecastDayInfo = (lat, lon, unit) => {
     // a function using lon & lat from currentDayInfo to get a forecast up to 7 days in the future
@@ -61,9 +62,7 @@ const App = () => {
           ...futureForecastObj,
           airQuality: {...airQualityObj}
       });
-      console.log("Forecast Obj in forecast Function:",forecastObj)
-        // return forecastObj;
-    }).catch(function (error) {
+      }).catch(function (error) {
         console.error(error);
     });
   }
@@ -102,16 +101,15 @@ const App = () => {
       return axios.get(currentAQI);
     })
     .then((response) => {
-      // console.log(response.data)
       let currentAQIResponse = response.data;
       
       setCurrentObj({
           ...currentForecastObj,
           airQuality: currentAQIResponse.list[0].main.aqi
       });
-      
+      console.log(currentObj)
       forecastDayInfo(currentForecastObj.lat, currentForecastObj.lon, unit)
-      // return forecastObj;
+      console.log(forecastObj)
 
     }).catch(function (error) {
         console.error(error);
@@ -125,6 +123,31 @@ const App = () => {
     let unit = inputObj.unit
 
     currentDayInfo(location, unit)
+
+    setForecastDisplay(true)
+  };
+
+  const conditionalDisplay = () => {
+    if (!forecastDisplay) {
+      
+      return (<div>
+        < InputForm 
+        onClickCallback= { processInputData }
+        currentDay={currentObj} 
+        forecastInfo={forecastObj}
+        /> 
+      </div> )
+    }
+    else {
+      return ( <div> 
+        <WeatherSummary 
+      currentinfo={currentObj} 
+      forecastInfo={forecastObj} 
+      setForecastDisplay={ setForecastDisplay }
+      />
+    </div> )
+  };
+
   }
   
   return (
@@ -133,18 +156,9 @@ const App = () => {
         <h1>Can I play outside?</h1>
       </header>
       <main>
-        < InputForm 
-        onClickCallback= { processInputData }
-        currentDay={currentObj} 
-        forecastInfo={forecastObj}
-        /> 
-        {console.log(currentObj)}
-        {console.log(forecastObj)}
-      
-        {/* <WeatherSummary 
-        currentDay={currentObj} 
-        forecastInfo={forecastObj} /> */}
 
+      { conditionalDisplay() }
+        
         
       </main>
       <footer>

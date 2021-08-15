@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, Image } from 'semantic-ui-react'
 
-const ForecastCard = (props) => {
+const CurrentCard = (props) => {
     // console.log(props)
 
     let timeConvert = (timestamp) => {
@@ -53,30 +53,29 @@ const ForecastCard = (props) => {
         <Card>
         <Card.Content>
             <Card.Header>
-                {`Forecast for:
-                ${weekDayConvert(props.dateTime)},  
-                ${monthConvert(props.dateTime)},  
-                ${numberDayConvert(props.dateTime)}`}
+                {`Forecast for 
+                ${weekDayConvert(props.currentInfo.dateTime)}, 
+                ${monthConvert(props.currentInfo.dateTime)},  
+                ${numberDayConvert(props.currentInfo.dateTime)}`}
             </Card.Header>
             <Image
             float='right'
-            alt=''
-            src= {`http://openweathermap.org/img/wn/${props.icon}.png`}
-            label={ props.description }
+            src= {`http://openweathermap.org/img/wn/${props.currentInfo.icon}.png`}
             />
-            <Card.Meta>Today is a ___ day for ____</Card.Meta>
+            <Card.Meta>Today is a great day for kayaking</Card.Meta>
             <Card.Description>
-            Max temp: {props.maxTemp} Min temp: {props.minTemp}
+            Today is {props.currentInfo.dateTime}
+            The current is: {props.currentInfo.currentTemp}
             <br/>
-            Wind info (speed + direction): {props.windSpeed} {props.windDegree}
+            Wind info (speed + direction): {props.currentInfo.windSpeed} {props.currentInfo.windDegree}
             <br/>
-            Air quality is: {props.airQuality}
+            Air quality is: {props.currentInfo.airQuality}
             <br/>
-            Visibility: {props.visibility}
+            Visibility: {props.currentInfo.visibility}
             <br/>
-            Humidity: {props.humidity}
+            Humidity: {props.currentInfo.humidity}
             <br/>
-            Sunset is at: {props.sunset}
+            Sunset is at: {props.currentInfo.sunset}
 
             </Card.Description>
         </Card.Content>
@@ -86,4 +85,4 @@ const ForecastCard = (props) => {
 };
 
 
-export default ForecastCard;
+export default CurrentCard;

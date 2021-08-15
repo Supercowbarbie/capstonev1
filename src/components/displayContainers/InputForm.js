@@ -10,9 +10,7 @@ import WeatherSummary from './WeatherSummary';
 
 
 const InputForm = (props) => {
-    // 
-    // let [location, setLocation] = useState('');
-    // let [unit, setUnit] = useState('imperial');
+    
     let [inputObj, setInputObj] = useState({
         location: "",
         minTemp: "",
@@ -48,7 +46,7 @@ const InputForm = (props) => {
 
     const clickButtonDeal = (event, obj) => {
         event.preventDefault();
-        console.log(inputObj);
+        // console.log(inputObj);
         props.onClickCallback(inputObj);
     }
 
@@ -173,18 +171,16 @@ const InputForm = (props) => {
             onClick={ () => clickButtonDeal(inputObj) }
             > */}
                 <Form.Field>
-                <Button type='submit'>
-                    Get Forecast
-                </Button>
-                
+                    <Button type='submit'>
+                        Get Forecast
+                    </Button>
                 </Form.Field>
-
             </Form>
             
-            <WeatherSummary 
+            {/* <WeatherSummary 
             currentDay={props.currentDay} 
             forecastInfo={props.forecastInfo}
-            inputParams={ inputObj} />
+            inputParams={ inputObj} /> */}
             </div>
         )
 };
