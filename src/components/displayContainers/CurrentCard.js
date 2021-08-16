@@ -4,8 +4,8 @@ import { Card, Image } from 'semantic-ui-react'
 const CurrentCard = (props) => {
     let inputParams = props.inputParams
     let currentInfo = props.currentInfo
-    let currentForecast = props.forecastInfo['0']
-    // console.log('forecast for today', currentForecast)
+    let currentForecast = props.forecastInfo
+    console.log('forecast for today', currentForecast)
     console.log(props)
 
     const dateDisplay = (timestamp) => {
@@ -121,7 +121,7 @@ const CurrentCard = (props) => {
             <br/>
             Feels like: {currentInfo.feelsLike}°
             <br/>
-            Today's High: {currentForecast.maxTemp}° Today's Low: {currentForecast.minTemp}°
+            {/* {`Today's High: ${currentForecast.maxTemp}° Today's Low: ${currentForecast.minTemp}°`} */}
             <br/>
             { convertWindDirection(currentInfo.windDegree, currentInfo.windSpeed) }
             <br/>

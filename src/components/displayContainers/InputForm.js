@@ -3,6 +3,7 @@ import {
     Button,
     Checkbox,
     Form,
+    FormField,
     Input,
     Radio,
 } from 'semantic-ui-react'
@@ -19,6 +20,7 @@ const InputForm = (props) => {
         maxWind: "",
         minAQI: "",
         maxAQI: "",
+        weatherConditions: [],
         unit: "imperial",
         humidity: false,
         visibility: false,
@@ -127,20 +129,24 @@ const InputForm = (props) => {
             <Form.Group widths='equal' inline>
             <label> Air Quality Index (AQI) Range
             <br></br>
-                Go to airnow.gov/aqi/aqi-basics for more information about AQI 
             </label>
                 <Form.Field
                 control={Input}
-                placeholder='0 = Good'
+                placeholder='1 = Good'
                 onChange={(event) => setInputObj({minAPI: event.target.value})}
                 />
                 <Form.Field
                 control={Input}
-                placeholder='200 = Unhealthy'
+                placeholder='5 = Unhealthy'
                 onChange={(event) => setInputObj({maxAPI: event.target.value})}
                 />
             </ Form.Group >
             <br></br>
+            <Form.Group grouped>
+                <label>HTML checkboxes</label>
+                <Form.Field label='This one' control='input' type='checkbox' />
+                <Form.Field label='That one' control='input' type='checkbox' />
+                </Form.Group>
             < Form.Group >
                 <Form.Field
                 control={Checkbox}
@@ -156,13 +162,22 @@ const InputForm = (props) => {
                 checked={inputObj.humidity === true}
                 onChange={(event) => setInputObj({humidity: event.target.value})}
                 />
-                <Form.Field
+                <Form.Field> 
+                    <Checkbox
+                    toggle
+                    label='Show Visibility'
+                    checked={inputObj.visibility === true}
+                    onChange={(event) => setInputObj({visibility: event.target.value})}
+                    />
+                </Form.Field>
+
+                {/* <Form.Field
                 control={Checkbox}
                 toggle
                 label='Show Visibility'
                 checked={inputObj.visibility === true}
                 onChange={(event) => setInputObj({visibility: event.target.value})}
-                />
+                /> */}
             </ Form.Group >
                 <br></br>
             {/* <Form.Field 

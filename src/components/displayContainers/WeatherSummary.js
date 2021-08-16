@@ -4,6 +4,7 @@ import ForecastCard from "./ForecastCard";
 import Alerts from "./Alerts";
     
 const WeatherSummary = (props) => {
+    console.log(props.forecastInfo)
     // map each day from forecast into each forecastCard
     // create a function that renders multiple forecast cards
 
@@ -23,9 +24,19 @@ const WeatherSummary = (props) => {
     //         </div>
     //     );
     // });
+    const forecastDays = () => {
+        for ( const day in props.forecastInfo ) {
+            return <ForecastCard 
+            forecastInfo={ props.forecastInfo[day] } 
+            inputParams={ props.inputParams } 
+            />
+        }
+    }
     
     const newForecast = () => {
+        // props.resetForecastObject({})
         props.setForecastDisplay(false)
+        
     };
 
     const alertDisplay = () => {
@@ -44,13 +55,14 @@ const WeatherSummary = (props) => {
                 forecastInfo={ props.forecastInfo } 
                 inputParams={ props.inputParams }  
                 />
-                <ForecastCard 
+                {/* <ForecastCard 
                 currentInfo={ props.currentInfo } 
                 forecastInfo={ props.forecastInfo } 
                 inputParams={ props.inputParams } 
-                />
+                /> */}
+                { forecastDays }
 
-                { alertDisplay() }
+                { alertDisplay }
                 
             </Card.Group>
             <div>
