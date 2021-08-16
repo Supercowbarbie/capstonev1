@@ -3,15 +3,16 @@ import { Card, Image } from 'semantic-ui-react'
 
 const ForecastCard = (props) => {
     let inputParams = props.inputParams
-    let currentForecast = props.forecastInfo['0']
-    console.log(currentForecast)
-    let alerts = props.forecastInfo.alerts
+    console.log('input Props', inputParams)
+    console.log('forecast Props', props.forecastInfo)
 
     let timeConvert = (timestamp) => {
         // a function to convert UNIX timestamp to words
         // timestamp = 1627797600
-        const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", 
+        "Friday", "Saturday"]
+        const months = ["January", "February", "March", "April", "May", "June", 
+        "July", "August", "September", "October", "November", "December"]
         
         let date = new Date(timestamp*1000)
 
@@ -39,14 +40,10 @@ const ForecastCard = (props) => {
 
     let monthConvert = (timestamp) => {
         // a function to convert UNIX timestamp to words
-        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        const months = ["January", "February", "March", "April", "May", "June", "July", 
+        "August", "September", "October", "November", "December"]
         let date = new Date(timestamp*1000)
         return months[date.getMonth()]
-    }
-
-    const convertWindDirection = () => {
-        // function that converts wind degrees to direction
-
     }
 
     

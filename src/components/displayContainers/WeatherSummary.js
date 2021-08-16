@@ -26,7 +26,15 @@ const WeatherSummary = (props) => {
     
     const newForecast = () => {
         props.setForecastDisplay(false)
-    }
+    };
+
+    const alertDisplay = () => {
+        if (props.forecastInfo.alerts) { 
+            return < Alerts
+            alerts= { props.forecastInfo.alerts } 
+            />
+        }  
+    };
 
     return (
         <main>
@@ -41,8 +49,9 @@ const WeatherSummary = (props) => {
                 forecastInfo={ props.forecastInfo } 
                 inputParams={ props.inputParams } 
                 />
-                < Alerts
-                alerts= { props.forecastInfo.alerts } />
+
+                { alertDisplay() }
+                
             </Card.Group>
             <div>
                 <Button onClick={ newForecast }>

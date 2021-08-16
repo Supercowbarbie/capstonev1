@@ -3,6 +3,7 @@ import { Card, Image } from 'semantic-ui-react'
 
 const Alerts = (props) => {
     let alerts = props.alerts
+    console.log('alerts object:', alerts)
 
     const hourConvert = (timestamp) => {
         // a function to convert UNIX timestamp to words

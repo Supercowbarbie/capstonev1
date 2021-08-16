@@ -5,7 +5,8 @@ const CurrentCard = (props) => {
     let inputParams = props.inputParams
     let currentInfo = props.currentInfo
     let currentForecast = props.forecastInfo['0']
-    console.log(currentForecast)
+    // console.log('forecast for today', currentForecast)
+    console.log(props)
 
     const dateDisplay = (timestamp) => {
         // a function to convert UNIX timestamp to words
@@ -25,6 +26,27 @@ const CurrentCard = (props) => {
         ${ formattedDate.month }  
         ${ formattedDate.numberDay }`
     };
+
+    const toggleVisibility = () => {
+        // toggles visibiility, humidity and Sunset on/off depending on input
+        if (inputParams.visibility) {
+            return `Visibility: ${ currentInfo.visibility} meters`
+        }
+    };
+
+    const toggleHumidity = () => {
+        if (inputParams.humidity) {
+            return `Humidity: ${ currentInfo.humidity}%`
+        } 
+    };
+
+    const toggleSunset = () => {
+        if (inputParams.sunset) {
+            return `Sunset at: ${ currentInfo.sunset } PM`
+        } 
+        
+    };
+
 
     const convertWindDirection = (windDegree, windSpeed) => {
         // function that converts wind degrees to direction
@@ -105,12 +127,11 @@ const CurrentCard = (props) => {
             <br/>
             Air Quality Index (AQI): { currentInfo.airQuality}
             <br/>
-            {/* need visibiility, humidity and Sunset to be conditional  */}
-            Visibility: { currentInfo.visibility} meters
+            { toggleVisibility(currentInfo.visibility)} 
             <br/>
-            Humidity: { currentInfo.humidity}%
+            { toggleHumidity(currentInfo.humidity)} 
             <br/>
-            Sunset at: { currentInfo.sunset } PM
+            { toggleSunset(currentInfo.sunset)} 
             </Card.Description>
         </Card.Content>
         </Card>

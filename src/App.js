@@ -10,6 +10,7 @@ const App = () => {
   let [currentObj, setCurrentObj] = useState({});
   let [forecastObj, setForecastObj] = useState({});
   let [forecastDisplay, setForecastDisplay] = useState(false);
+  let [inputParams, setInputParams] = useState({})
 
   const capitalize = (description) => {
     let capitalDescription = description.charAt(0).toUpperCase() + description.slice(1)
@@ -39,12 +40,10 @@ const App = () => {
       return 'Air quality is fair. People who are unusually sensitive to air pollution could have symptoms.'
     }
     else if (aqi === 3) {
-      return 'Air quality is unhealthy for sensitve groups. \
-      OK to be active outside, take more breaks and do less intense activities.'
+      return 'Air quality is unhealthy for sensitve groups. OK to be active outside, take more breaks and do less intense activities.'
     }
     else if (aqi === 4) {
-      return 'Air quality is poor. Consider moving longer or more intense activities \
-      indoors or rescheduling them to another day or time.  '
+      return 'Air quality is poor. Consider moving longer or more intense activities indoors or rescheduling them to another day or time.  '
     }
     else if (aqi === 5) {
       return 'Air quality is very poor. Move all activities indoors or reschedule them for another day.'
@@ -53,11 +52,9 @@ const App = () => {
 
   let forecastDayInfo = (lat, lon, unit) => {
     // a function using lon & lat from currentDayInfo to get a forecast up to 7 days in the future
-    let forecastWeather = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}\
-    &exclude=current,minutely,hourly&units=${unit}&appid=${process.env.REACT_APP_OPEN_API_KEY}`
+    let forecastWeather = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly&units=${unit}&appid=${process.env.REACT_APP_OPEN_API_KEY}`
 
-    let forecastAQI = `https://api.openweathermap.org/data/2.5/air_pollution/forecast?\
-    lat=${lat}&lon=${lon}&appid=${process.env.REACT_APP_OPEN_API_KEY}`
+    let forecastAQI = `https://api.openweathermap.org/data/2.5/air_pollution/forecast?lat=${lat}&lon=${lon}&appid=${process.env.REACT_APP_OPEN_API_KEY}`
 
     let futureForecastObj = {};
     let airQualityObj = {};
@@ -74,8 +71,7 @@ const App = () => {
       for (let i=0; i < futureForecast.length; i++) {
         futureForecastObj[i] =
         {dateTime: futureForecast[i].dt,
-          sunset: hourConvert
-      (futureForecast[i].sunset),
+          sunset: hourConvert(futureForecast[i].sunset),
           minTemp: Math.round(futureForecast[i].temp.min),
           maxTemp: Math.round(futureForecast[i].temp.max),
           humidity: futureForecast[i].humidity,
@@ -112,8 +108,7 @@ const App = () => {
   
   const currentDayInfo = (location, unit) => {
     // A function to gather current day weather and AQI
-    let currentWeather = `https://api.openweathermap.org/data/2.5/weather?q=${location}\
-    &appid=${process.env.REACT_APP_OPEN_API_KEY}&cnt=6&units=${unit}`
+    let currentWeather = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${process.env.REACT_APP_OPEN_API_KEY}&units=${unit}`
   
     let currentForecastObj;
   
@@ -130,20 +125,15 @@ const App = () => {
           currentTemp: Math.round(currentForecast.main.temp),
           feelsLike: Math.round(currentForecast.main.feels_like),
           humidity: currentForecast.main.humidity,
-          // convert visibility to km or say meters
           visibility: currentForecast.visibility,
           windSpeed: currentForecast.wind.speed,
-          // needs to be translated into direction
           windDegree: currentForecast.wind.deg,
-          sunset: hourConvert
-      (currentForecast.sys.sunset),
+          sunset: hourConvert(currentForecast.sys.sunset),
           description: capitalize(currentForecast.weather[0].description),
           icon: currentForecast.weather[0].icon
       };
 
-      let currentAQI = `https://api.openweathermap.org/data/2.5/air_pollution?\
-      lat=${currentForecastObj.lat}&lon=${currentForecastObj.lon}\
-      &appid=${process.env.REACT_APP_OPEN_API_KEY}`
+      let currentAQI = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${currentForecastObj.lat}&lon=${currentForecastObj.lon}&appid=${process.env.REACT_APP_OPEN_API_KEY}`
       
       return axios.get(currentAQI);
     })
@@ -154,14 +144,14 @@ const App = () => {
           ...currentForecastObj,
           airQuality: aqiDisplay(currentAQIResponse.list[0].main.aqi)
       });
-      console.log(currentObj)
+      console.log('currentObj created', currentObj)
       forecastDayInfo(currentForecastObj.lat, currentForecastObj.lon, unit)
-      console.log(forecastObj)
+      console.log('forecastObj created', forecastObj)
 
     }).catch(function (error) {
         console.error(error);
     });
-  }
+  };
 
   //ultimately this is the last thing that actually runs in the program
   const processInputData = (inputObj) => {
@@ -169,18 +159,15 @@ const App = () => {
     // when "Get Forecast" button is clicked in InputForm
     let location = inputObj.location
     let unit = inputObj.unit
-
+    
+    setInputParams( inputObj )
     currentDayInfo(location, unit)
-
     setForecastDisplay(true)
+    
 
-    let inputParams = {...inputObj}
-    console.log(inputParams)
-
-    return inputParams
   };
 
-  const conditionalDisplay = (inputParams) => {
+  const conditionalDisplay = () => {
     if (!forecastDisplay) {
       return ( <div>
         < InputForm 
