@@ -16,7 +16,7 @@ const WeatherSummary = (props) => {
     //     )
     // }
 
-    // const forecastDays = props.forecastInfo.map(day => {
+    // const forecastDays = () => {
     //     return (
     //         <div>
     //             <ForecastCard 
@@ -24,14 +24,18 @@ const WeatherSummary = (props) => {
     //         </div>
     //     );
     // });
-    const forecastDays = () => {
-        for ( const day in props.forecastInfo ) {
-            return <ForecastCard 
-            forecastInfo={ props.forecastInfo[day] } 
-            inputParams={ props.inputParams } 
-            />
-        }
+    // const buildForecastDays = () => {
+    let forecastDays = [];
+    for ( let day in props.forecastInfo ) {
+        forecastDays = [
+        <div>
+            <ForecastCard 
+                forecastInfo={ day } 
+                inputParams={ props.inputParams } 
+        />
+        </div> ];
     }
+
     
     const newForecast = () => {
         // props.resetForecastObject({})
@@ -40,16 +44,17 @@ const WeatherSummary = (props) => {
     };
 
     const alertDisplay = () => {
-        if (props.forecastInfo.alerts) { 
+        if (props.alerts) { 
+            for (let alert in props.alerts)
             return < Alerts
-            alerts= { props.forecastInfo.alerts } 
+            alerts= { alert } 
             />
         }  
     };
 
     return (
         <main>
-            <Card.Group>
+            {/* <Card.Group> */}
                 <CurrentCard 
                 currentInfo={ props.currentInfo } 
                 forecastInfo={ props.forecastInfo } 
@@ -61,10 +66,9 @@ const WeatherSummary = (props) => {
                 inputParams={ props.inputParams } 
                 /> */}
                 { forecastDays }
-
                 { alertDisplay }
                 
-            </Card.Group>
+            {/* </Card.Group> */}
             <div>
                 <Button onClick={ newForecast }>
                     New Forecast

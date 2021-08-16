@@ -9,11 +9,14 @@ const App = () => {
   // State
   let [currentObj, setCurrentObj] = useState({});
   let [forecastObj, setForecastObj] = useState({});
+  let [alerts, setAlerts] = useState({});
   let [forecastDisplay, setForecastDisplay] = useState(false);
-  let [inputParams, setInputParams] = useState({})
+  let [inputParams, setInputParams] = useState({});
+
 
   const capitalize = (description) => {
-    let capitalDescription = description.charAt(0).toUpperCase() + description.slice(1)
+    let capitalDescription = description.charAt(0).toUpperCase() 
+    + description.slice(1)
     return `${capitalDescription}`
   };
   
@@ -65,9 +68,11 @@ const App = () => {
       let futureForecast = response.data.daily
       // console.log("Daily Response Info:", response.data.daily)
       let currentAlerts = response.data.alerts
+      // console.log(currentAlerts)
+      setAlerts({"alerts": currentAlerts});
+      // console.log("alerts:", alerts)
 
 // a loop to unpack each day from the response and store it in the futureForecastObj
-      // let futureForecastObj = {};
       for (let i=0; i < futureForecast.length; i++) {
         futureForecastObj[i] =
         {dateTime: futureForecast[i].dt,
@@ -81,40 +86,35 @@ const App = () => {
           icon: futureForecast[i].weather[0].icon,
         } ;
       }
-      // futureForecastObj['alerts'] = currentAlerts;
-
       // console.log(futureForecastObj)
       return axios.get(forecastAQI);
     })
     .then((response) => {
       // console.log(response.data)
       let forecastAQIResponse = response.data.list;
-      console.log(futureForecastObj)
+      // console.log('FutureForecastObj',futureForecastObj)
       
       for (const day in futureForecastObj) { 
-        if (day !== "alerts") {
           const dateLabel = futureForecastObj[day].dateTime;
-          console.log(day)
-          console.log(dateLabel)
+          // console.log(day)
+          // console.log(dateLabel)
           for (let j=0; j < forecastAQIResponse.length; j++ ) {
             if (dateLabel === forecastAQIResponse[j].dt) {
               airQualityObj[dateLabel] = aqiDisplay(forecastAQIResponse[j].main.aqi);
-              console.log("test")
-            }
+              // console.log("test")
           }
         }
       }  
-      console.log(futureForecastObj)
+      
       setForecastObj({
           ...futureForecastObj,
           airQuality: {...airQualityObj}
       });
+      // console.log('ForecastObj:', forecastObj)
 
       }).catch(function (error) {
         console.error(error);
     });
-
-    
   }
   
   const currentDayInfo = (location, unit) => {
@@ -181,8 +181,8 @@ const App = () => {
       return ( <div>
         < InputForm 
         onClickCallback= { processInputData }
-        currentInfo={ currentObj } 
-        forecastInfo={ forecastObj } 
+        // currentInfo={ currentObj } 
+        // forecastInfo={ forecastObj } 
         /> 
       </div> )
     }
@@ -192,6 +192,7 @@ const App = () => {
         currentInfo={ currentObj } 
         forecastInfo={ forecastObj } 
         inputParams={ inputParams }
+        alerts={ alerts }
         setForecastDisplay={ setForecastDisplay }
         resetForecastObject= { setForecastObj } 
         />

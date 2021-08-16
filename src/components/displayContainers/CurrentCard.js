@@ -5,8 +5,8 @@ const CurrentCard = (props) => {
     let inputParams = props.inputParams
     let currentInfo = props.currentInfo
     let currentForecast = props.forecastInfo
-    console.log('forecast for today', currentForecast)
-    console.log(props)
+    // console.log('forecast for today', currentForecast)
+    // console.log(props)
 
     const dateDisplay = (timestamp) => {
         // a function to convert UNIX timestamp to words
@@ -105,7 +105,7 @@ const CurrentCard = (props) => {
 
     
     return (
-    <Card.Group>
+    <Card.Group centered>
         <Card>
         <Card.Content>
             <Card.Header> Today is a ____ day for ____ </Card.Header>
