@@ -2,7 +2,10 @@ import React from 'react'
 import { Card, Image } from 'semantic-ui-react'
 
 const ForecastCard = (props) => {
-    // console.log(props)
+    let inputParams = props.inputParams
+    let currentForecast = props.forecastInfo['0']
+    console.log(currentForecast)
+    let alerts = props.forecastInfo.alerts
 
     let timeConvert = (timestamp) => {
         // a function to convert UNIX timestamp to words

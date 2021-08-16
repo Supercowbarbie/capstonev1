@@ -46,7 +46,6 @@ const InputForm = (props) => {
 
     const clickButtonDeal = (event, obj) => {
         event.preventDefault();
-        // console.log(inputObj);
         props.onClickCallback(inputObj);
     }
 

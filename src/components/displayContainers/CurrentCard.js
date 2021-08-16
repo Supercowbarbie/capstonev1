@@ -2,13 +2,17 @@ import React from 'react'
 import { Card, Image } from 'semantic-ui-react'
 
 const CurrentCard = (props) => {
-    // console.log(props)
+    let inputParams = props.inputParams
+    let currentInfo = props.currentInfo
+    let currentForecast = props.forecastInfo['0']
+    console.log(currentForecast)
 
-    let timeConvert = (timestamp) => {
+    const dateDisplay = (timestamp) => {
         // a function to convert UNIX timestamp to words
-        // timestamp = 1627797600
-        const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
+        "Friday", "Saturday"]
+        const months = ["January", "February", "March", "April", "May", "June", 
+        "July", "August", "September", "October", "November", "December"]
         
         let date = new Date(timestamp*1000)
 
@@ -17,66 +21,96 @@ const CurrentCard = (props) => {
             month: months[date.getMonth()],
             numberDay: date.getDate()
         }
-        return formattedDate
-    }
-    let weekDayConvert = (timestamp) => {
-        // a function to convert UNIX timestamp to words
-        // timestamp = 1627797600
-        const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-        
-        let date = new Date(timestamp*1000)
-        return days[date.getDay()]
+        return `Current weather for ${ formattedDate.weekDay }, 
+        ${ formattedDate.month }  
+        ${ formattedDate.numberDay }`
     };
 
-    let numberDayConvert = (timestamp) => {
-        // a function to convert UNIX timestamp to words
-        let date = new Date(timestamp*1000)
-        return date.getDate()
-    }
-
-    let monthConvert = (timestamp) => {
-        // a function to convert UNIX timestamp to words
-        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        let date = new Date(timestamp*1000)
-        return months[date.getMonth()]
-    }
-
-    const convertWindDirection = () => {
+    const convertWindDirection = (windDegree, windSpeed) => {
         // function that converts wind degrees to direction
-
-    }
+        if ( windDegree >= 0 && windDegree < 22.5) {
+            return `Current Wind Conditions (direction & speed): N ${windSpeed}`
+        } 
+        else if ( windDegree >= 22.5 && windDegree < 45) {
+            return `Current Wind Conditions (direction & speed): NNE ${windSpeed}`
+        } 
+        else if ( windDegree >= 45 && windDegree < 67.5) {
+            return `Current Wind Conditions (direction & speed): NE ${windSpeed}`
+        } 
+        else if ( windDegree >= 67.5 && windDegree < 90) {
+            return `Current Wind Conditions (direction & speed): ENE ${windSpeed}`
+        } 
+        else if ( windDegree >= 90 && windDegree < 112.5) {
+            return `Current Wind Conditions (direction & speed): E ${windSpeed}`
+        } 
+        else if ( windDegree >= 112.5 && windDegree < 135) {
+                return `Current Wind Conditions (direction & speed): ESE ${windSpeed}`
+            } 
+        else if ( windDegree >= 135 && windDegree < 157.5) {
+            return `Current Wind Conditions (direction & speed): SE ${windSpeed}`
+        } 
+        else if ( windDegree >= 157.5 && windDegree < 180) {
+            return `Current Wind Conditions (direction & speed): SSE ${windSpeed}`
+        } 
+        else if ( windDegree >= 180 && windDegree < 202.5) {
+            return `Current Wind Conditions (direction & speed): S ${windSpeed}`
+        } 
+        else if ( windDegree >= 202.5 && windDegree < 225) {
+            return `Current Wind Conditions (direction & speed): SSW ${windSpeed}`
+        } 
+        else if ( windDegree >= 225 && windDegree < 247.5) {
+            return `Current Wind Conditions (direction & speed): SW ${windSpeed}` 
+        } 
+        else if ( windDegree >= 247.5 && windDegree < 270) {
+            return `Current Wind Conditions (direction & speed): WSW ${windSpeed}`
+        } 
+        else if ( windDegree >= 270 && windDegree < 292.5) {
+            return `Current Wind Conditions (direction & speed): W ${windSpeed}`
+        } 
+        else if ( windDegree >= 292.5 && windDegree < 315) {
+            return `Current Wind Conditions (direction & speed): WNW ${windSpeed}`
+        } 
+        else if ( windDegree >= 315 && windDegree < 337.5) {
+            return `Current Wind Conditions (direction & speed): NW ${windSpeed}`
+        } 
+        else if ( windDegree >= 337.5 && windDegree < 360) {
+            return `Current Wind Conditions (direction & speed): NNW ${windSpeed}`
+        } 
+        else {
+            return `Current Wind Conditions (direction & speed): N ${windSpeed}`
+        }
+    };
 
     
-    // console.log(props.currentInfo.icon)
     return (
     <Card.Group>
         <Card>
         <Card.Content>
-            <Card.Header>
-                {`Forecast for 
-                ${weekDayConvert(props.currentInfo.dateTime)}, 
-                ${monthConvert(props.currentInfo.dateTime)},  
-                ${numberDayConvert(props.currentInfo.dateTime)}`}
-            </Card.Header>
+            <Card.Header> Today is a ____ day for ____ </Card.Header>
             <Image
-            float='right'
+            // float='right'
+            alt= { currentInfo.description }
             src= {`http://openweathermap.org/img/wn/${props.currentInfo.icon}.png`}
+            label={dateDisplay(currentInfo.dateTime)}
             />
-            <Card.Meta>Today is a great day for kayaking</Card.Meta>
+            <Card.Meta>{ currentInfo.description }</Card.Meta>
             <Card.Description>
-            Today is {props.currentInfo.dateTime}
-            The current is: {props.currentInfo.currentTemp}
+            Current temperature: {currentInfo.currentTemp}° 
             <br/>
-            Wind info (speed + direction): {props.currentInfo.windSpeed} {props.currentInfo.windDegree}
+            Feels like: {currentInfo.feelsLike}°
             <br/>
-            Air quality is: {props.currentInfo.airQuality}
+            Today's High: {currentForecast.maxTemp}° Today's Low: {currentForecast.minTemp}°
             <br/>
-            Visibility: {props.currentInfo.visibility}
+            { convertWindDirection(currentInfo.windDegree, currentInfo.windSpeed) }
             <br/>
-            Humidity: {props.currentInfo.humidity}
+            Air Quality Index (AQI): { currentInfo.airQuality}
             <br/>
-            Sunset is at: {props.currentInfo.sunset}
-
+            {/* need visibiility, humidity and Sunset to be conditional  */}
+            Visibility: { currentInfo.visibility} meters
+            <br/>
+            Humidity: { currentInfo.humidity}%
+            <br/>
+            Sunset at: { currentInfo.sunset } PM
             </Card.Description>
         </Card.Content>
         </Card>

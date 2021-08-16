@@ -11,11 +11,53 @@ const App = () => {
   let [forecastObj, setForecastObj] = useState({});
   let [forecastDisplay, setForecastDisplay] = useState(false);
 
+  const capitalize = (description) => {
+    let capitalDescription = description.charAt(0).toUpperCase() + description.slice(1)
+    return `${capitalDescription}`
+  };
+  
+  const hourConvert = (timestamp) => {
+    // a function to convert UNIX timestamp to words
+    let date = new Date(timestamp*1000)
+    let hour = date.getHours()
+    if (hour > 12) {
+        hour -= 12
+    }
+    return `${hour}:${date.getMinutes()}`
+  };
+
+  const unitDisplay = (unit) => {
+    // a function to display the correct units for temp & wind speed
+  };
+
+  const aqiDisplay = (aqi) => {
+    // function to add descrription to AQI 
+    if (aqi === 1) {
+      return 'Air Quality is good. Great day to be active outside!'
+    }
+    else if (aqi === 2) {
+      return 'Air quality is fair. People who are unusually sensitive to air pollution could have symptoms.'
+    }
+    else if (aqi === 3) {
+      return 'Air quality is unhealthy for sensitve groups. \
+      OK to be active outside, take more breaks and do less intense activities.'
+    }
+    else if (aqi === 4) {
+      return 'Air quality is poor. Consider moving longer or more intense activities \
+      indoors or rescheduling them to another day or time.  '
+    }
+    else if (aqi === 5) {
+      return 'Air quality is very poor. Move all activities indoors or reschedule them for another day.'
+    }
+  };
+
   let forecastDayInfo = (lat, lon, unit) => {
     // a function using lon & lat from currentDayInfo to get a forecast up to 7 days in the future
-    let forecastWeather = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly&units=${unit}&appid=${process.env.REACT_APP_OPEN_API_KEY}`
+    let forecastWeather = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}\
+    &exclude=current,minutely,hourly&units=${unit}&appid=${process.env.REACT_APP_OPEN_API_KEY}`
 
-    let forecastAQI = `https://api.openweathermap.org/data/2.5/air_pollution/forecast?lat=${lat}&lon=${lon}&appid=${process.env.REACT_APP_OPEN_API_KEY}`
+    let forecastAQI = `https://api.openweathermap.org/data/2.5/air_pollution/forecast?\
+    lat=${lat}&lon=${lon}&appid=${process.env.REACT_APP_OPEN_API_KEY}`
 
     let futureForecastObj = {};
     let airQualityObj = {};
@@ -32,13 +74,14 @@ const App = () => {
       for (let i=0; i < futureForecast.length; i++) {
         futureForecastObj[i] =
         {dateTime: futureForecast[i].dt,
-          sunset: futureForecast[i].sunset,
-          minTemp: futureForecast[i].temp.min,
-          maxTemp: futureForecast[i].temp.max,
+          sunset: hourConvert
+      (futureForecast[i].sunset),
+          minTemp: Math.round(futureForecast[i].temp.min),
+          maxTemp: Math.round(futureForecast[i].temp.max),
           humidity: futureForecast[i].humidity,
           windSpeed: futureForecast[i].wind_speed,
           windDegree: futureForecast[i].wind_deg,
-          description: futureForecast[i].weather[0].description,
+          description: capitalize(futureForecast[i].weather[0].description),
           icon: futureForecast[i].weather[0].icon,
         } ;
       }
@@ -54,7 +97,7 @@ const App = () => {
         let dateLabel = futureForecastObj[day].dateTime;
         for (let j=0; j < forecastAQIResponse.length; j++ ) {
           if (dateLabel === forecastAQIResponse[j].dt) {
-            airQualityObj[dateLabel] = forecastAQIResponse[j].main.aqi;
+            airQualityObj[dateLabel] = aqiDisplay(forecastAQIResponse[j].main.aqi);
           }
         }
       }  
@@ -69,7 +112,8 @@ const App = () => {
   
   const currentDayInfo = (location, unit) => {
     // A function to gather current day weather and AQI
-    let currentWeather = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${process.env.REACT_APP_OPEN_API_KEY}&cnt=6&units=${unit}`
+    let currentWeather = `https://api.openweathermap.org/data/2.5/weather?q=${location}\
+    &appid=${process.env.REACT_APP_OPEN_API_KEY}&cnt=6&units=${unit}`
   
     let currentForecastObj;
   
@@ -91,12 +135,15 @@ const App = () => {
           windSpeed: currentForecast.wind.speed,
           // needs to be translated into direction
           windDegree: currentForecast.wind.deg,
-          sunset: currentForecast.sys.sunset,
-          description: currentForecast.weather[0].description,
+          sunset: hourConvert
+      (currentForecast.sys.sunset),
+          description: capitalize(currentForecast.weather[0].description),
           icon: currentForecast.weather[0].icon
       };
 
-      let currentAQI = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${currentForecastObj.lat}&lon=${currentForecastObj.lon}&appid=${process.env.REACT_APP_OPEN_API_KEY}`
+      let currentAQI = `https://api.openweathermap.org/data/2.5/air_pollution?\
+      lat=${currentForecastObj.lat}&lon=${currentForecastObj.lon}\
+      &appid=${process.env.REACT_APP_OPEN_API_KEY}`
       
       return axios.get(currentAQI);
     })
@@ -105,7 +152,7 @@ const App = () => {
       
       setCurrentObj({
           ...currentForecastObj,
-          airQuality: currentAQIResponse.list[0].main.aqi
+          airQuality: aqiDisplay(currentAQIResponse.list[0].main.aqi)
       });
       console.log(currentObj)
       forecastDayInfo(currentForecastObj.lat, currentForecastObj.lon, unit)
@@ -118,37 +165,42 @@ const App = () => {
 
   //ultimately this is the last thing that actually runs in the program
   const processInputData = (inputObj) => {
-    // function to pass the input data along to currentDayInfo and forecastDayInfo when "Get Forecast" button is clicked in InputForm
+    // function to pass the input data along to currentDayInfo and forecastDayInfo 
+    // when "Get Forecast" button is clicked in InputForm
     let location = inputObj.location
     let unit = inputObj.unit
 
     currentDayInfo(location, unit)
 
     setForecastDisplay(true)
+
+    let inputParams = {...inputObj}
+    console.log(inputParams)
+
+    return inputParams
   };
 
-  const conditionalDisplay = () => {
+  const conditionalDisplay = (inputParams) => {
     if (!forecastDisplay) {
-      
-      return (<div>
+      return ( <div>
         < InputForm 
         onClickCallback= { processInputData }
-        currentDay={currentObj} 
-        forecastInfo={forecastObj}
+        currentInfo={ currentObj } 
+        forecastInfo={ forecastObj } 
         /> 
       </div> )
     }
     else {
       return ( <div> 
         <WeatherSummary 
-      currentinfo={currentObj} 
-      forecastInfo={forecastObj} 
-      setForecastDisplay={ setForecastDisplay }
-      />
+        currentInfo={ currentObj } 
+        forecastInfo={ forecastObj } 
+        inputParams={ inputParams }
+        setForecastDisplay={ setForecastDisplay }
+        />
     </div> )
+    };
   };
-
-  }
   
   return (
     <div className="App">
@@ -158,7 +210,6 @@ const App = () => {
       <main>
 
       { conditionalDisplay() }
-        
         
       </main>
       <footer>

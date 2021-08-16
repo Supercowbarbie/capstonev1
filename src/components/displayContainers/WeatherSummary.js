@@ -1,8 +1,7 @@
-import ForecastCard from "./ForecastCard";
-import { Button } from "semantic-ui-react";
+import { Button, Card, Divider } from "semantic-ui-react";
 import CurrentCard from "./CurrentCard";
-
-// const axios = require('axios');
+import ForecastCard from "./ForecastCard";
+import Alerts from "./Alerts";
     
 const WeatherSummary = (props) => {
     // map each day from forecast into each forecastCard
@@ -16,14 +15,14 @@ const WeatherSummary = (props) => {
     //     )
     // }
 
-    const forecastDays = props.forecastInfo.map(day => {
-        return (
-            <div>
-                <ForecastCard 
-                dateTime={day.dateTime}></ForecastCard>
-            </div>
-        );
-    });
+    // const forecastDays = props.forecastInfo.map(day => {
+    //     return (
+    //         <div>
+    //             <ForecastCard 
+    //             dateTime={day.dateTime}></ForecastCard>
+    //         </div>
+    //     );
+    // });
     
     const newForecast = () => {
         props.setForecastDisplay(false)
@@ -31,25 +30,25 @@ const WeatherSummary = (props) => {
 
     return (
         <main>
-            <div> 
+            <Card.Group>
                 <CurrentCard 
-                currentDay={props.currentDay}
-                inputParams={props.inputParams}
-                forecastInfo={props.forecastInfo}  
+                currentInfo={ props.currentInfo } 
+                forecastInfo={ props.forecastInfo } 
+                inputParams={ props.inputParams }  
                 />
-                {/* <ForecastCard 
-            currentDay={props.currentDay} 
-            forecastInfo={props.forecastInfo}
-            inputParams={props.inputParams} 
-            /> */}
-            </div>
+                <ForecastCard 
+                currentInfo={ props.currentInfo } 
+                forecastInfo={ props.forecastInfo } 
+                inputParams={ props.inputParams } 
+                />
+                < Alerts
+                alerts= { props.forecastInfo.alerts } />
+            </Card.Group>
             <div>
-                { forecastDays }
-            </div>
                 <Button onClick={ newForecast }>
                     New Forecast
                 </Button>
-                
+            </div>
         </main>
     )
 };
