@@ -1,11 +1,13 @@
 // import './App.css';
 import React, { useState } from 'react';
+import { Container, Header, Card } from "semantic-ui-react";
+
 import InputForm from './components/displayContainers/InputForm';
 import WeatherSummary from './components/displayContainers/WeatherSummary';
 
 const axios = require('axios').default;
 
-const App = () => {
+const App = ({ children}) => {
   // State
   let [currentObj, setCurrentObj] = useState({});
   let [forecastObj, setForecastObj] = useState({});
@@ -185,7 +187,7 @@ const App = () => {
       </div> )
     }
     else {
-      return ( <div> 
+      return ( 
         <WeatherSummary 
         currentInfo={ currentObj } 
         forecastInfo={ forecastObj } 
@@ -195,27 +197,35 @@ const App = () => {
         setForecastDisplay={ setForecastDisplay }
         resetForecastObject= { setForecastObj } 
         />
-    </div> )
+      )
     };
   };
   
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Can I play outside?</h1>
-      </header>
-      <main>
+    <Container style={{ margin: 20 }}>
+      {/* <div className="App"> */}
+        {/* <header className="App-header"> */}
+        <Header as="h1">Can I play outside?</Header>
+          {/* <h1>Can I play outside?</h1> */}
+        {/* </header> */}
+        <main>
 
-      { conditionalDisplay() }
-      {/* { console.log('currentObj in App', currentObj) }
-      { console.log('forecastObj in App', forecastObj) } */}
+        { conditionalDisplay() }
+        {/* { console.log('currentObj in App', currentObj) }
+        { console.log('forecastObj in App', forecastObj) } */}
         
-      </main>
-      <footer>
-        Page created by Marisa Morales
-      </footer>
-    </div>
+        </main>
+        <footer>
+          Page created by Marisa Morales
+        </footer>
+      {/* </div> */}
+    </Container>
   );
 }
 
 export default App;
+
+const styleLink = document.createElement("link");
+styleLink.rel = "stylesheet";
+styleLink.href = "https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css";
+document.head.appendChild(styleLink);

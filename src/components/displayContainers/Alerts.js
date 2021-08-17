@@ -34,7 +34,7 @@ const Alerts = (props) => {
         ${ formattedDate.numberDay } at ${ hourConvert(date) }`
     };
     return (
-        <Card>
+        <Card color='red'>
         <Card.Content>
             <Card.Header> </Card.Header>
             <Image

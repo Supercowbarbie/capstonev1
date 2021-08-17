@@ -106,7 +106,7 @@ const CurrentCard = (props) => {
     
     return (
     // <Card.Group centered>
-        <Card>
+        <Card color ='teal'>
         <Card.Content>
             <Card.Header> Today is a ____ day for ____ </Card.Header>
             <Image

@@ -9,8 +9,7 @@ const ForecastCard = (props) => {
 
     // console.log(props.currentInfo.icon)
     return (
-    // <Card.Group>
-    <Card>
+    <Card color='violet'>
         <Card.Content>
             <Card.Header>Today is a ____ day for ____ </Card.Header>
             {/* <Image
@@ -35,8 +34,7 @@ const ForecastCard = (props) => {
 
             </Card.Description>
         </Card.Content>
-     </Card> 
-    // </Card.Group>  
+    </Card> 
     )
 };
 
