@@ -105,7 +105,7 @@ const CurrentCard = (props) => {
 
     
     return (
-    <Card.Group centered>
+    // <Card.Group centered>
         <Card>
         <Card.Content>
             <Card.Header> Today is a ____ day for ____ </Card.Header>
@@ -121,7 +121,7 @@ const CurrentCard = (props) => {
             <br/>
             Feels like: {currentInfo.feelsLike}°
             <br/>
-            {/* {`Today's High: ${currentForecast.maxTemp}° Today's Low: ${currentForecast.minTemp}°`} */}
+            {`Today's High: ${currentForecast.maxTemp}° Today's Low: ${currentForecast.minTemp}°`}
             <br/>
             { convertWindDirection(currentInfo.windDegree, currentInfo.windSpeed) }
             <br/>
@@ -135,7 +135,7 @@ const CurrentCard = (props) => {
             </Card.Description>
         </Card.Content>
         </Card>
-    </Card.Group>  
+    // </Card.Group>  
     )
 };
 

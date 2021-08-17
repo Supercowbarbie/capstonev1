@@ -10,6 +10,7 @@ const App = () => {
   let [currentObj, setCurrentObj] = useState({});
   let [forecastObj, setForecastObj] = useState({});
   let [alerts, setAlerts] = useState({});
+  let [airQuality, setAirQuality] = useState({});
   let [forecastDisplay, setForecastDisplay] = useState(false);
   let [inputParams, setInputParams] = useState({});
 
@@ -96,8 +97,6 @@ const App = () => {
       
       for (const day in futureForecastObj) { 
           const dateLabel = futureForecastObj[day].dateTime;
-          // console.log(day)
-          // console.log(dateLabel)
           for (let j=0; j < forecastAQIResponse.length; j++ ) {
             if (dateLabel === forecastAQIResponse[j].dt) {
               airQualityObj[dateLabel] = aqiDisplay(forecastAQIResponse[j].main.aqi);
@@ -106,10 +105,9 @@ const App = () => {
         }
       }  
       
-      setForecastObj({
-          ...futureForecastObj,
-          airQuality: {...airQualityObj}
-      });
+      setForecastObj({...futureForecastObj,})
+      setAirQuality({airQuality: {...airQualityObj}})
+    
       // console.log('ForecastObj:', forecastObj)
 
       }).catch(function (error) {
@@ -193,6 +191,7 @@ const App = () => {
         forecastInfo={ forecastObj } 
         inputParams={ inputParams }
         alerts={ alerts }
+        AQIForecast= { airQuality }
         setForecastDisplay={ setForecastDisplay }
         resetForecastObject= { setForecastObj } 
         />
