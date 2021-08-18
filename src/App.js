@@ -1,6 +1,5 @@
-// import './App.css';
 import React, { useState } from 'react';
-import { Container, Header, Card } from "semantic-ui-react";
+import { Container, Header, Dimmer, Loader, Grid } from "semantic-ui-react";
 
 import InputForm from './components/displayContainers/InputForm';
 import WeatherSummary from './components/displayContainers/WeatherSummary';
@@ -69,11 +68,8 @@ const App = ({ children}) => {
     .get(forecastWeather)
     .then((response) => {
       let futureForecast = response.data.daily
-      // console.log("Daily Response Info:", response.data.daily)
       let currentAlerts = response.data.alerts
-      // console.log(currentAlerts)
       setAlerts({"alerts": currentAlerts});
-      // console.log("alerts:", alerts)
 
 // a loop to unpack each day from the response and store it in the futureForecastObj
       for (let i=0; i < futureForecast.length; i++) {
@@ -89,28 +85,22 @@ const App = ({ children}) => {
           icon: futureForecast[i].weather[0].icon,
         } ;
       }
-      // console.log(futureForecastObj)
       return axios.get(forecastAQI);
     })
     .then((response) => {
-      // console.log(response.data)
       let forecastAQIResponse = response.data.list;
-      // console.log('FutureForecastObj',futureForecastObj)
       
       for (const day in futureForecastObj) { 
           const dateLabel = futureForecastObj[day].dateTime;
           for (let j=0; j < forecastAQIResponse.length; j++ ) {
             if (dateLabel === forecastAQIResponse[j].dt) {
               airQualityObj[dateLabel] = aqiDisplay(forecastAQIResponse[j].main.aqi);
-              // console.log("test")
           }
         }
       }  
       
       setForecastObj({...futureForecastObj,})
-      setAirQuality({airQuality: {...airQualityObj}})
-    
-      // console.log('ForecastObj:', forecastObj)
+      setAirQuality({ ...airQualityObj })
 
       }).catch(function (error) {
         console.error(error);
@@ -181,13 +171,11 @@ const App = ({ children}) => {
       return ( <div>
         < InputForm 
         onClickCallback= { processInputData }
-        // currentInfo={ currentObj } 
-        // forecastInfo={ forecastObj } 
         /> 
       </div> )
     }
     else {
-      return ( 
+      return ( (typeof forecastObj['0'] != 'undefined' ) ? (
         <WeatherSummary 
         currentInfo={ currentObj } 
         forecastInfo={ forecastObj } 
@@ -197,29 +185,35 @@ const App = ({ children}) => {
         setForecastDisplay={ setForecastDisplay }
         resetForecastObject= { setForecastObj } 
         />
+        ):(
+        <div>
+          <Dimmer active>
+            <Loader>Loading..</Loader>
+          </Dimmer>
+        </div>
+          )
       )
     };
   };
   
   return (
+    <div>
     <Container style={{ margin: 20 }}>
-      {/* <div className="App"> */}
-        {/* <header className="App-header"> */}
-        <Header as="h1">Can I play outside?</Header>
-          {/* <h1>Can I play outside?</h1> */}
-        {/* </header> */}
+        <Header textAlign='center' as="h1" color='teal'> 
+        Can I play outside? 
+        </Header>
         <main>
-
-        { conditionalDisplay() }
-        {/* { console.log('currentObj in App', currentObj) }
-        { console.log('forecastObj in App', forecastObj) } */}
-        
+            <div>
+            { conditionalDisplay() }
+            </div>
         </main>
-        <footer>
-          Page created by Marisa Morales
-        </footer>
-      {/* </div> */}
+        <Grid>
+            <Grid.Column textAlign="center">
+              App created by Marisa Morales
+            </Grid.Column>
+        </Grid>
     </Container>
+    </div>
   );
 }
 

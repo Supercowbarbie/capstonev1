@@ -4,9 +4,7 @@ import { Card, Image } from 'semantic-ui-react'
 const CurrentCard = (props) => {
     let inputParams = props.inputParams
     let currentInfo = props.currentInfo
-    let currentForecast = props.forecastInfo
-    // console.log('forecast for today', currentForecast)
-    // console.log(props)
+    let currentForecast = props.forecastInfo['0']
 
     const dateDisplay = (timestamp) => {
         // a function to convert UNIX timestamp to words
@@ -22,16 +20,9 @@ const CurrentCard = (props) => {
             month: months[date.getMonth()],
             numberDay: date.getDate()
         }
-        return `Current weather for ${ formattedDate.weekDay }, 
+        return `Weather conditions for ${ formattedDate.weekDay }, 
         ${ formattedDate.month }  
         ${ formattedDate.numberDay }`
-    };
-
-    const toggleVisibility = () => {
-        // toggles visibiility, humidity and Sunset on/off depending on input
-        if (inputParams.visibility) {
-            return `Visibility: ${ currentInfo.visibility} meters`
-        }
     };
 
     const toggleHumidity = () => {
@@ -51,66 +42,65 @@ const CurrentCard = (props) => {
     const convertWindDirection = (windDegree, windSpeed) => {
         // function that converts wind degrees to direction
         if ( windDegree >= 0 && windDegree < 22.5) {
-            return `Current Wind Conditions (direction & speed): N ${windSpeed}`
+            return `Wind: N ${windSpeed}`
         } 
         else if ( windDegree >= 22.5 && windDegree < 45) {
-            return `Current Wind Conditions (direction & speed): NNE ${windSpeed}`
+            return `Wind: NNE ${windSpeed}`
         } 
         else if ( windDegree >= 45 && windDegree < 67.5) {
-            return `Current Wind Conditions (direction & speed): NE ${windSpeed}`
+            return `Wind: NE ${windSpeed}`
         } 
         else if ( windDegree >= 67.5 && windDegree < 90) {
-            return `Current Wind Conditions (direction & speed): ENE ${windSpeed}`
+            return `Wind: ENE ${windSpeed}`
         } 
         else if ( windDegree >= 90 && windDegree < 112.5) {
-            return `Current Wind Conditions (direction & speed): E ${windSpeed}`
+            return `Wind: E ${windSpeed}`
         } 
         else if ( windDegree >= 112.5 && windDegree < 135) {
-                return `Current Wind Conditions (direction & speed): ESE ${windSpeed}`
+                return `Wind: ESE ${windSpeed}`
             } 
         else if ( windDegree >= 135 && windDegree < 157.5) {
-            return `Current Wind Conditions (direction & speed): SE ${windSpeed}`
+            return `Wind: SE ${windSpeed}`
         } 
         else if ( windDegree >= 157.5 && windDegree < 180) {
-            return `Current Wind Conditions (direction & speed): SSE ${windSpeed}`
+            return `Wind: SSE ${windSpeed}`
         } 
         else if ( windDegree >= 180 && windDegree < 202.5) {
-            return `Current Wind Conditions (direction & speed): S ${windSpeed}`
+            return `Wind: S ${windSpeed}`
         } 
         else if ( windDegree >= 202.5 && windDegree < 225) {
-            return `Current Wind Conditions (direction & speed): SSW ${windSpeed}`
+            return `Wind: SSW ${windSpeed}`
         } 
         else if ( windDegree >= 225 && windDegree < 247.5) {
-            return `Current Wind Conditions (direction & speed): SW ${windSpeed}` 
+            return `Wind: SW ${windSpeed}` 
         } 
         else if ( windDegree >= 247.5 && windDegree < 270) {
-            return `Current Wind Conditions (direction & speed): WSW ${windSpeed}`
+            return `Wind: WSW ${windSpeed}`
         } 
         else if ( windDegree >= 270 && windDegree < 292.5) {
-            return `Current Wind Conditions (direction & speed): W ${windSpeed}`
+            return `Wind: W ${windSpeed}`
         } 
         else if ( windDegree >= 292.5 && windDegree < 315) {
-            return `Current Wind Conditions (direction & speed): WNW ${windSpeed}`
+            return `Wind: WNW ${windSpeed}`
         } 
         else if ( windDegree >= 315 && windDegree < 337.5) {
-            return `Current Wind Conditions (direction & speed): NW ${windSpeed}`
+            return `Wind: NW ${windSpeed}`
         } 
         else if ( windDegree >= 337.5 && windDegree < 360) {
-            return `Current Wind Conditions (direction & speed): NNW ${windSpeed}`
+            return `Wind: NNW ${windSpeed}`
         } 
         else {
-            return `Current Wind Conditions (direction & speed): N ${windSpeed}`
+            return `Wind: N ${windSpeed}`
         }
     };
 
     
     return (
-    // <Card.Group centered>
         <Card color ='teal'>
         <Card.Content>
-            <Card.Header> Today is a ____ day for ____ </Card.Header>
+            <Card.Header textAlign='center'> Today is a ____ day for your activity </Card.Header>
             <Image
-            // float='right'
+            centered
             alt= { currentInfo.description }
             src= {`http://openweathermap.org/img/wn/${props.currentInfo.icon}.png`}
             label={dateDisplay(currentInfo.dateTime)}
@@ -121,13 +111,15 @@ const CurrentCard = (props) => {
             <br/>
             Feels like: {currentInfo.feelsLike}°
             <br/>
-            {`Today's High: ${currentForecast.maxTemp}° Today's Low: ${currentForecast.minTemp}°`}
+            {`Today's High: ${currentForecast.maxTemp}°`}
+            <br/>
+            {`Today's Low: ${currentForecast.minTemp}°`}
             <br/>
             { convertWindDirection(currentInfo.windDegree, currentInfo.windSpeed) }
             <br/>
             Air Quality Index (AQI): { currentInfo.airQuality}
             <br/>
-            { toggleVisibility(currentInfo.visibility)} 
+            Visibility: { currentInfo.visibility} meters
             <br/>
             { toggleHumidity(currentInfo.humidity)} 
             <br/>
@@ -135,9 +127,7 @@ const CurrentCard = (props) => {
             </Card.Description>
         </Card.Content>
         </Card>
-    // </Card.Group>  
     )
 };
-
 
 export default CurrentCard;

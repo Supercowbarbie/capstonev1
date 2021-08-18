@@ -1,33 +1,27 @@
-import { Button, Card, Divider } from "semantic-ui-react";
+import { Button, Card, Header, Grid } from "semantic-ui-react";
 import CurrentCard from "./CurrentCard";
 import ForecastCard from "./ForecastCard";
 import Alerts from "./Alerts";
     
 const WeatherSummary = (props) => {
-    // console.log(props.alerts)
-    // console.log(props.forecastInfo)
-    // map each day from forecast into each forecastCard
-    // create a function that renders multiple forecast cards
+    console.log(props)
 
     let forecastDays = [];
     const forecast = {...props.forecastInfo}
     delete forecast['0'];
-    console.log(forecast)
     Object.keys(forecast).forEach(day => {
         forecastDays.push(
-            <div>
+                <Card color='violet'>
                     <ForecastCard 
-                        forecastInfo={ props.forecastInfo[day] } 
-                        inputParams={ props.inputParams } 
-                        AQIForecast= { props.AQIForecast }
-                />
-            </div>
+                    forecastInfo={ props.forecastInfo[day] } 
+                    inputParams={ props.inputParams } 
+                    AQIForecast= { props.AQIForecast }
+                    />
+                </Card>
             )
         })
     
-
     const newForecast = () => {
-        // props.resetForecastObject({})
         props.setForecastDisplay(false)
         
     };
@@ -56,7 +50,10 @@ const WeatherSummary = (props) => {
 
     return (
         <main>
-            <Card.Group centered>
+            <Header textAlign='center' as="h2" color='grey'>
+                Best activity days for {props.inputParams.location}
+            </Header>
+            <Card.Group centered >
                 { alertDisplay }
 
                 <CurrentCard 
@@ -66,18 +63,18 @@ const WeatherSummary = (props) => {
                 />
             </Card.Group>
             
-            <Card.Group centered itemsPerRow={3}>
+            <Card.Group itemsPerRow={4} centered >
 
                 { forecastDays }
                 
             </Card.Group>
-            
-            <br/>
-            <div>
-                <Button onClick={ newForecast }>
-                    New Forecast
-                </Button>
-            </div>
+            <Grid>
+                <Grid.Column textAlign="center">
+                    <Button centered onClick={ newForecast } class="big ui button">
+                        New Forecast
+                    </Button>
+                </Grid.Column>
+            </Grid>
         </main>
     )
 };
