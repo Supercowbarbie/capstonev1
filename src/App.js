@@ -32,10 +32,6 @@ const App = ({ children}) => {
     return `${hour}:${date.getMinutes()}`
   };
 
-  const unitDisplay = (unit) => {
-    // a function to display the correct units for temp & wind speed
-  };
-
   const aqiDisplay = (aqi) => {
     // function to add descrription to AQI 
     if (aqi === 1) {
@@ -183,7 +179,7 @@ const App = ({ children}) => {
         alerts={ alerts }
         AQIForecast= { airQuality }
         setForecastDisplay={ setForecastDisplay }
-        resetForecastObject= { setForecastObj } 
+        resetForecastObject= { setForecastObj }
         />
         ):(
         <div>

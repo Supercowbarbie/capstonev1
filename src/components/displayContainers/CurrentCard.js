@@ -6,6 +6,31 @@ const CurrentCard = (props) => {
     let currentInfo = props.currentInfo
     let currentForecast = props.forecastInfo['0']
 
+    const unitDisplay = (unit) => {
+        // a function to display the correct units for temp & wind speed
+        let unitsObj= {};   
+        if (unit === 'imperial') {
+            unitsObj= {
+            temp: 'F',
+            speed: 'MPH'
+            }
+        }
+        else if (unit === 'metric') {
+            unitsObj= {
+            temp: 'C',
+            speed: 'm/s'
+            }
+        }
+        else if (unit === 'standard') {
+            unitsObj= {
+            temp: 'K',
+            speed: 'm/s'
+            }
+        }
+        return unitsObj
+    };
+    let unitObj = unitDisplay(inputParams.unit)
+
     const dateDisplay = (timestamp) => {
         // a function to convert UNIX timestamp to words
         const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
@@ -38,7 +63,6 @@ const CurrentCard = (props) => {
         
     };
 
-
     const convertWindDirection = (windDegree, windSpeed) => {
         // function that converts wind degrees to direction
         if ( windDegree >= 0 && windDegree < 22.5) {
@@ -48,53 +72,52 @@ const CurrentCard = (props) => {
             return `Wind: NNE ${windSpeed}`
         } 
         else if ( windDegree >= 45 && windDegree < 67.5) {
-            return `Wind: NE ${windSpeed}`
+            return `Wind: NE ${windSpeed}${unitObj.speed}`
         } 
         else if ( windDegree >= 67.5 && windDegree < 90) {
-            return `Wind: ENE ${windSpeed}`
+            return `Wind: ENE ${windSpeed}${unitObj.speed}`
         } 
         else if ( windDegree >= 90 && windDegree < 112.5) {
-            return `Wind: E ${windSpeed}`
+            return `Wind: E ${windSpeed}${unitObj.speed}`
         } 
         else if ( windDegree >= 112.5 && windDegree < 135) {
-                return `Wind: ESE ${windSpeed}`
+                return `Wind: ESE ${windSpeed}${unitObj.speed}`
             } 
         else if ( windDegree >= 135 && windDegree < 157.5) {
-            return `Wind: SE ${windSpeed}`
+            return `Wind: SE ${windSpeed}${unitObj.speed}`
         } 
         else if ( windDegree >= 157.5 && windDegree < 180) {
-            return `Wind: SSE ${windSpeed}`
+            return `Wind: SSE ${windSpeed}${unitObj.speed}`
         } 
         else if ( windDegree >= 180 && windDegree < 202.5) {
-            return `Wind: S ${windSpeed}`
+            return `Wind: S ${windSpeed}${unitObj.speed}`
         } 
         else if ( windDegree >= 202.5 && windDegree < 225) {
-            return `Wind: SSW ${windSpeed}`
+            return `Wind: SSW ${windSpeed}${unitObj.speed}`
         } 
         else if ( windDegree >= 225 && windDegree < 247.5) {
-            return `Wind: SW ${windSpeed}` 
+            return `Wind: SW ${windSpeed}${unitObj.speed}` 
         } 
         else if ( windDegree >= 247.5 && windDegree < 270) {
-            return `Wind: WSW ${windSpeed}`
+            return `Wind: WSW ${windSpeed}${unitObj.speed}`
         } 
         else if ( windDegree >= 270 && windDegree < 292.5) {
-            return `Wind: W ${windSpeed}`
+            return `Wind: W ${windSpeed}${unitObj.speed}`
         } 
         else if ( windDegree >= 292.5 && windDegree < 315) {
-            return `Wind: WNW ${windSpeed}`
+            return `Wind: WNW ${windSpeed}${unitObj.speed}`
         } 
         else if ( windDegree >= 315 && windDegree < 337.5) {
-            return `Wind: NW ${windSpeed}`
+            return `Wind: NW ${windSpeed}${unitObj.speed}`
         } 
         else if ( windDegree >= 337.5 && windDegree < 360) {
-            return `Wind: NNW ${windSpeed}`
+            return `Wind: NNW ${windSpeed}${unitObj.speed}`
         } 
         else {
-            return `Wind: N ${windSpeed}`
+            return `Wind: N ${windSpeed}${unitObj.speed}`
         }
     };
 
-    
     return (
         <Card color ='teal'>
         <Card.Content>
@@ -107,13 +130,13 @@ const CurrentCard = (props) => {
             />
             <Card.Meta>{ currentInfo.description }</Card.Meta>
             <Card.Description>
-            Current temperature: {currentInfo.currentTemp}° 
+            Current temperature: {currentInfo.currentTemp}°{unitObj.temp} 
             <br/>
-            Feels like: {currentInfo.feelsLike}°
+            Feels like: {currentInfo.feelsLike}°{unitObj.temp} 
             <br/>
-            {`Today's High: ${currentForecast.maxTemp}°`}
+            {`Today's High: ${currentForecast.maxTemp}°${unitObj.temp}`}
             <br/>
-            {`Today's Low: ${currentForecast.minTemp}°`}
+            {`Today's Low: ${currentForecast.minTemp}°${unitObj.temp} `}
             <br/>
             { convertWindDirection(currentInfo.windDegree, currentInfo.windSpeed) }
             <br/>
