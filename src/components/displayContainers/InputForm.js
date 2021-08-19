@@ -145,7 +145,7 @@ const InputForm = (props) => {
                 control={Checkbox} 
                 label='Clear sky' 
                 value='clear sky' 
-                checked={inputObj.weatherConditions['clear sky'] === true}
+                // checked={inputObj.weatherConditions['clear sky'] === true}
                 onChange={(event) => setInputObj({
                     ...inputObj, weatherConditions: {
                         ...inputObj.weatherConditions, 
@@ -157,7 +157,7 @@ const InputForm = (props) => {
                 label='Few clouds' 
                 name='few clouds' 
                 value='few clouds'
-                checked={inputObj.weatherConditions['few clouds' ] === true}
+                // checked={inputObj.weatherConditions['few clouds' ] === true}
                 onChange={(event) => setInputObj({
                     ...inputObj, weatherConditions: {
                         ...inputObj.weatherConditions, 
@@ -169,7 +169,7 @@ const InputForm = (props) => {
                 label='Overcast clouds'
                 value='overcast clouds'
                 name='overcast clouds'
-                checked={inputObj.weatherConditions['overcast clouds'] === true}
+                // checked={inputObj.weatherConditions['overcast clouds'] === true}
                 onChange={(event) => setInputObj({
                     ...inputObj, weatherConditions: {
                         ...inputObj.weatherConditions, 
@@ -181,7 +181,7 @@ const InputForm = (props) => {
                 label='Broken clouds'
                 value='broken clouds'
                 name='broken clouds'
-                checked={inputObj.weatherConditions['broken clouds'] === true}
+                // checked={inputObj.weatherConditions['broken clouds'] === true}
                 onChange={(event) => setInputObj({
                     ...inputObj, weatherConditions: {
                         ...inputObj.weatherConditions, 
@@ -193,7 +193,7 @@ const InputForm = (props) => {
                 label='Scattered clouds'
                 value='scattered clouds'
                 name='scattered clouds'
-                checked={inputObj.weatherConditions['scattered clouds'] === true}
+                // checked={inputObj.weatherConditions['scattered clouds'] === true}
                 onChange={(event) => setInputObj({
                     ...inputObj, weatherConditions: {
                         ...inputObj.weatherConditions, 
@@ -205,7 +205,7 @@ const InputForm = (props) => {
                 label='Shower rain'
                 value='shower rain'
                 name='shower rain'
-                checked={inputObj.weatherConditions['shower rain'] === true}
+                // checked={inputObj.weatherConditions['shower rain'] === true}
                 onChange={(event) => setInputObj({
                     ...inputObj, weatherConditions: {
                         ...inputObj.weatherConditions, 
@@ -217,7 +217,7 @@ const InputForm = (props) => {
                 label='Rain'
                 value='rain'
                 name='rain'
-                checked={inputObj.weatherConditions['rain'] === true}
+                // checked={inputObj.weatherConditions['rain'] === true}
                 onChange={(event) => setInputObj({
                     ...inputObj, weatherConditions: {
                         ...inputObj.weatherConditions, 
@@ -229,7 +229,7 @@ const InputForm = (props) => {
                 label='Thunderstorm'
                 value='thunderstorm'
                 name='thunderstorm'
-                checked={inputObj.weatherConditions['thunderstorm'] === true}
+                // checked={inputObj.weatherConditions['thunderstorm'] === true}
                 onChange={(event) => setInputObj({
                     ...inputObj, weatherConditions: {
                         ...inputObj.weatherConditions, 
@@ -241,7 +241,7 @@ const InputForm = (props) => {
                 label='Snow'
                 value='snow'
                 name='snow'
-                checked={inputObj.weatherConditions['snow'] === true}
+                // checked={inputObj.weatherConditions['snow'] === true}
                 onChange={(event) => setInputObj({
                     ...inputObj, weatherConditions: {
                         ...inputObj.weatherConditions, 
@@ -253,7 +253,7 @@ const InputForm = (props) => {
                 label='Mist'
                 value='mist'
                 name='mist'
-                checked={inputObj.weatherConditions['mist'] === true}
+                // checked={inputObj.weatherConditions['mist'] === true}
                 onChange={(event) => setInputObj({
                     ...inputObj, weatherConditions: {
                         ...inputObj.weatherConditions, 

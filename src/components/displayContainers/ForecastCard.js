@@ -30,9 +30,6 @@ const ForecastCard = (props) => {
                 score -= 1
             }
         }
-        else {
-            return `No input values`
-        }
         return score
         };
         let score = createScore();
