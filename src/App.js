@@ -75,7 +75,6 @@ const App = ({ children}) => {
       }  
       
       setForecastObj({...futureForecastObj,})
-      // setAirQuality({ ...airQualityObj })
 
       }).catch(function (error) {
         console.error(error);

@@ -142,23 +142,19 @@ const CurrentCard = (props) => {
         for (let weatherCondition in inputParams.weatherConditions) {
             if (inputParams.weatherConditions[weatherCondition] && (weatherCondition === currentInfo.description)) {
             score += 1
-            console.log('currentWeather:',score)
             }
         }
         if (inputParams.minTemp && (currentForecast.minTemp < parseInt(inputParams.minTemp))){
             score -= 1 
-            console.log('currentTemp:',score)
         }
         else if (inputParams.minWind || inputParams.maxWind) {
             if ((currentInfo.windSpeed > parseInt(inputParams.minWind)) || (currentInfo.windSpeed < parseInt(inputParams.maxWind))){
             score -= 1
-            console.log('currentWind:',score)
             }
         }
         else if (inputParams.minAQI || inputParams.maxAQI) {
             if ((currentInfo.airQuality < parseInt(inputParams.minAQI)) || (currentInfo.airQuality > parseInt(inputParams.maxAQI))){
                 score -= 1
-                console.log('currentAir:',score)
             }
         }
         else {

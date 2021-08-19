@@ -4,8 +4,6 @@ import ForecastCard from "./ForecastCard";
 import Alerts from "./Alerts";
     
 const WeatherSummary = (props) => {
-    // console.log(props)
-
     let forecastDays = [];
     const forecast = {...props.forecastInfo}
     delete forecast['0'];
@@ -15,7 +13,6 @@ const WeatherSummary = (props) => {
                     <ForecastCard 
                     forecastInfo={ props.forecastInfo[day] } 
                     inputParams={ props.inputParams } 
-                    // AQIForecast= { props.AQIForecast }
                     />
                 </Card>
             )

@@ -2,7 +2,6 @@ import React from 'react'
 import { Card, Image } from 'semantic-ui-react'
 
 const ForecastCard = (props) => {
-    // console.log(props)
     let forecast = props.forecastInfo
     let inputParams = props.inputParams
 
