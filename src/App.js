@@ -11,45 +11,24 @@ const App = ({ children}) => {
   let [currentObj, setCurrentObj] = useState({});
   let [forecastObj, setForecastObj] = useState({});
   let [alerts, setAlerts] = useState({});
-  let [airQuality, setAirQuality] = useState({});
+  // let [airQuality, setAirQuality] = useState({});
   let [forecastDisplay, setForecastDisplay] = useState(false);
   let [inputParams, setInputParams] = useState({});
-
-
-  const capitalize = (description) => {
-    let capitalDescription = description.charAt(0).toUpperCase() 
-    + description.slice(1)
-    return `${capitalDescription}`
-  };
   
   const hourConvert = (timestamp) => {
     // a function to convert UNIX timestamp to words
     let date = new Date(timestamp*1000)
     let hour = date.getHours()
+    let minute = date.getMinutes()
     if (hour > 12) {
         hour -= 12
     }
-    return `${hour}:${date.getMinutes()}`
+    if (minute <10){
+      minute = `0${minute}`
+    }
+    return `${hour}:${minute}`
   };
 
-  const aqiDisplay = (aqi) => {
-    // function to add descrription to AQI 
-    if (aqi === 1) {
-      return 'Air Quality is good. Great day to be active outside!'
-    }
-    else if (aqi === 2) {
-      return 'Air quality is fair. People who are unusually sensitive to air pollution could have symptoms.'
-    }
-    else if (aqi === 3) {
-      return 'Air quality is unhealthy for sensitve groups. OK to be active outside, take more breaks and do less intense activities.'
-    }
-    else if (aqi === 4) {
-      return 'Air quality is poor. Consider moving longer or more intense activities indoors or rescheduling them to another day or time.  '
-    }
-    else if (aqi === 5) {
-      return 'Air quality is very poor. Move all activities indoors or reschedule them for another day.'
-    }
-  };
 
   let forecastDayInfo = (lat, lon, unit) => {
     // a function using lon & lat from currentDayInfo to get a forecast up to 7 days in the future
@@ -58,7 +37,7 @@ const App = ({ children}) => {
     let forecastAQI = `https://api.openweathermap.org/data/2.5/air_pollution/forecast?lat=${lat}&lon=${lon}&appid=${process.env.REACT_APP_OPEN_API_KEY}`
 
     let futureForecastObj = {};
-    let airQualityObj = {};
+    // let airQualityObj = {};
 
     axios
     .get(forecastWeather)
@@ -77,7 +56,7 @@ const App = ({ children}) => {
           humidity: futureForecast[i].humidity,
           windSpeed: futureForecast[i].wind_speed,
           windDegree: futureForecast[i].wind_deg,
-          description: capitalize(futureForecast[i].weather[0].description),
+          description: futureForecast[i].weather[0].description,
           icon: futureForecast[i].weather[0].icon,
         } ;
       }
@@ -89,14 +68,14 @@ const App = ({ children}) => {
       for (const day in futureForecastObj) { 
           const dateLabel = futureForecastObj[day].dateTime;
           for (let j=0; j < forecastAQIResponse.length; j++ ) {
-            if (dateLabel === forecastAQIResponse[j].dt) {
-              airQualityObj[dateLabel] = aqiDisplay(forecastAQIResponse[j].main.aqi);
+              if (dateLabel === forecastAQIResponse[j].dt) {
+                futureForecastObj[day]['aqi'] = forecastAQIResponse[j].main.aqi;
           }
         }
       }  
       
       setForecastObj({...futureForecastObj,})
-      setAirQuality({ ...airQualityObj })
+      // setAirQuality({ ...airQualityObj })
 
       }).catch(function (error) {
         console.error(error);
@@ -126,7 +105,7 @@ const App = ({ children}) => {
           windSpeed: currentForecast.wind.speed,
           windDegree: currentForecast.wind.deg,
           sunset: hourConvert(currentForecast.sys.sunset),
-          description: capitalize(currentForecast.weather[0].description),
+          description: currentForecast.weather[0].description,
           icon: currentForecast.weather[0].icon
       };
 
@@ -139,7 +118,7 @@ const App = ({ children}) => {
       
       setCurrentObj({
           ...currentForecastObj,
-          airQuality: aqiDisplay(currentAQIResponse.list[0].main.aqi)
+          airQuality: currentAQIResponse.list[0].main.aqi
       });
       
       forecastDayInfo(currentForecastObj.lat, currentForecastObj.lon, unit)
@@ -177,7 +156,6 @@ const App = ({ children}) => {
         forecastInfo={ forecastObj } 
         inputParams={ inputParams }
         alerts={ alerts }
-        AQIForecast= { airQuality }
         setForecastDisplay={ setForecastDisplay }
         resetForecastObject= { setForecastObj }
         />

@@ -29,7 +29,26 @@ const CurrentCard = (props) => {
         }
         return unitsObj
     };
-    let unitObj = unitDisplay(inputParams.unit)
+    let unitObj = unitDisplay(inputParams.unit);
+
+    const aqiDisplay = (aqi) => {
+        // function to add descrription to AQI 
+        if (aqi === 1) {
+        return 'Air Quality is good. Great day to be active outside!'
+        }
+        else if (aqi === 2) {
+            return 'Air quality is fair. People who are unusually sensitive to air pollution could have symptoms.'
+        }
+        else if (aqi === 3) {
+            return 'Air quality is unhealthy for sensitve groups. OK to be active outside, take more breaks and do less intense activities.'
+        }
+        else if (aqi === 4) {
+            return 'Air quality is poor. Consider moving longer or more intense activities indoors or rescheduling them to another day or time.  '
+        }
+        else if (aqi === 5) {
+            return 'Air quality is very poor. Move all activities indoors or reschedule them for another day.'
+        }
+    };
 
     const dateDisplay = (timestamp) => {
         // a function to convert UNIX timestamp to words
@@ -117,18 +136,75 @@ const CurrentCard = (props) => {
             return `Wind: N ${windSpeed}${unitObj.speed}`
         }
     };
+    const createScore = () => {
+        // create a variable to keep track of the correct input param matches
+        let score = 3
+        for (let weatherCondition in inputParams.weatherConditions) {
+            if (inputParams.weatherConditions[weatherCondition] && (weatherCondition === currentInfo.description)) {
+            score += 1
+            console.log('currentWeather:',score)
+            }
+        }
+        if (inputParams.minTemp && (currentForecast.minTemp < parseInt(inputParams.minTemp))){
+            score -= 1 
+            console.log('currentTemp:',score)
+        }
+        else if (inputParams.minWind || inputParams.maxWind) {
+            if ((currentInfo.windSpeed > parseInt(inputParams.minWind)) || (currentInfo.windSpeed < parseInt(inputParams.maxWind))){
+            score -= 1
+            console.log('currentWind:',score)
+            }
+        }
+        else if (inputParams.minAQI || inputParams.maxAQI) {
+            if ((currentInfo.airQuality < parseInt(inputParams.minAQI)) || (currentInfo.airQuality > parseInt(inputParams.maxAQI))){
+                score -= 1
+                console.log('currentAir:',score)
+            }
+        }
+        else {
+            return `No input values`
+        }
+        return score
+        };
+        let score = createScore();
+        let bestDay = (score) => {
+            if (score === 4) {
+                return `This is a perfect day for your activity!`
+            }
+            else if (score === 3) {
+                return `This is a great day for your activity!`
+            }
+            else if (score === 2) {
+                return `This is an OK day for your activity.`
+            }
+            else if (score === 1) {
+                return `This is not a good day for your activity.`
+            }
+            else if (score === 0) {
+                return `This is a bad day for your activity.`
+            }
+            else {
+                return `Enter search parameters to see if this is a good day for your activity`
+            }
+        }
+
+        const capitalize = (description) => {
+            let capitalDescription = description.charAt(0).toUpperCase() 
+            + description.slice(1)
+            return `${capitalDescription}`
+        };
 
     return (
         <Card color ='teal'>
         <Card.Content>
-            <Card.Header textAlign='center'> Today is a ____ day for your activity </Card.Header>
+            <Card.Header textAlign='center' as="h3"> { bestDay(score) } </Card.Header>
             <Image
-            centered
+            floated='left'
             alt= { currentInfo.description }
             src= {`http://openweathermap.org/img/wn/${props.currentInfo.icon}.png`}
             label={dateDisplay(currentInfo.dateTime)}
             />
-            <Card.Meta>{ currentInfo.description }</Card.Meta>
+            <Card.Meta>{ capitalize(currentInfo.description) }</Card.Meta>
             <Card.Description>
             Current temperature: {currentInfo.currentTemp}°{unitObj.temp} 
             <br/>
@@ -140,7 +216,7 @@ const CurrentCard = (props) => {
             <br/>
             { convertWindDirection(currentInfo.windDegree, currentInfo.windSpeed) }
             <br/>
-            Air Quality Index (AQI): { currentInfo.airQuality}
+            Air Quality Index (AQI): { aqiDisplay(currentInfo.airQuality)}
             <br/>
             Visibility: { currentInfo.visibility} meters
             <br/>

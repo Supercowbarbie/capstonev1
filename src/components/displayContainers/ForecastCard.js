@@ -2,9 +2,62 @@ import React from 'react'
 import { Card, Image } from 'semantic-ui-react'
 
 const ForecastCard = (props) => {
-    let airQuality = props.AQIForecast 
+    // console.log(props)
     let forecast = props.forecastInfo
     let inputParams = props.inputParams
+
+    const createScore = () => {
+        // create a variable to keep track of the correct input param matches
+        let score = 3
+
+        for (let weatherCondition in inputParams.weatherConditions) {
+            if (inputParams.weatherConditions[weatherCondition] && (weatherCondition === forecast.description)) {
+            score += 1
+            }
+        }
+
+        if (inputParams.minTemp && (forecast.minTemp < inputParams.minTemp)){
+            score -= 1 
+        }
+        else if (inputParams.minWind ||inputParams.maxWind) {
+            if ((forecast.windSpeed < inputParams.minWind) || 
+            forecast.windSpeed > inputParams.maxWind){
+            score -= 1
+            }
+        }
+        else if ((inputParams.minAQI || inputParams.maxAQI) && forecast.aqi) {
+            if (forecast.aqi < inputParams.minAQI || 
+                forecast.aqi > inputParams.maxAQI ){
+                score -= 1
+            }
+        }
+        else {
+            return `No input values`
+        }
+        return score
+        };
+        let score = createScore();
+
+        let bestDay = (score) => {
+            if (score === 4) {
+                return `This is a perfect day for your activity!`
+            }
+            else if (score === 3) {
+                return `This is a great day for your activity!`
+            }
+            else if (score === 2) {
+                return `This is an OK day for your activity.`
+            }
+            else if (score === 1) {
+                return `This is not a good day for your activity.`
+            }
+            else if (score === 0) {
+                return `This is a bad day for your activity.`
+            }
+            else {
+                return `Enter search parameters to see if this is a good day for your activity`
+            }
+        }
 
     const unitDisplay = (unit) => {
         // a function to display the correct units for temp & wind speed
@@ -30,6 +83,31 @@ const ForecastCard = (props) => {
         return unitsObj
     };
     let unitObj = unitDisplay(inputParams.unit)
+
+    const aqiDisplay = (aqi) => {
+        // function to add descrription to AQI 
+        if (aqi === 1) {
+        return 'Air Quality is good. Great day to be active outside!'
+        }
+        else if (aqi === 2) {
+            return 'Air quality is fair. People who are unusually sensitive to air pollution could have symptoms.'
+        }
+        else if (aqi === 3) {
+            return 'Air quality is unhealthy for sensitve groups. OK to be active outside, take more breaks and do less intense activities.'
+        }
+        else if (aqi === 4) {
+            return 'Air quality is poor. Consider moving longer or more intense activities indoors or rescheduling them to another day or time.  '
+        }
+        else if (aqi === 5) {
+            return 'Air quality is very poor. Move all activities indoors or reschedule them for another day.'
+        }
+    };
+
+    const airQualityDisplay = (aqi) => {
+        if (aqi) {
+            return `Air Quality Index (AQI): ${ aqiDisplay(aqi) }`
+        }
+    };
 
     const dateDisplay = (timestamp) => {
         // a function to convert UNIX timestamp to words
@@ -121,33 +199,23 @@ const ForecastCard = (props) => {
             return `Wind: N ${windSpeed}${unitObj.speed}`
         }
     };
-    const airQualityDisplay = () => {
-        for (let day in airQuality) {
-            if (day === forecast.dateTime) {
-                return ( <div> 
-                    `Air Quality Index (AQI): ${ airQuality.day }`
-                    </div>
-                )
-            }
-        }
-    };
 
-    // const bestActivity = () => {
-    //     if (forecast.maxTemp <= inputParams.maxTemp &&
-    //         forecast.minTemp >= inputParams.minTemp &&
-    //         forecast.maxTemp <= inputParams.maxTemp&& )
-    // }
+    const capitalize = (description) => {
+        let capitalDescription = description.charAt(0).toUpperCase() 
+        + description.slice(1)
+        return `${capitalDescription}`
+    };
 
     return (
         <Card.Content>
-            <Card.Header textAlign='center'>Today is a ____ day for your activity </Card.Header>
+            <Card.Header textAlign='center' as='h3' content={`${bestDay(score)}`}/> 
             <Image
-            floated='center'
+            floated='left'
             alt={ forecast.description }
             src= {`http://openweathermap.org/img/wn/${forecast.icon}.png`}
             label={dateDisplay(forecast.dateTime)}
             />
-            <Card.Meta>{ forecast.description }</Card.Meta>
+            <Card.Meta>{ capitalize(forecast.description) }</Card.Meta>
             <Card.Description>
                 <div>
                 Max temp: {forecast.maxTemp}{unitObj.temp}° 
@@ -155,9 +223,15 @@ const ForecastCard = (props) => {
                 Min temp: {forecast.minTemp}°{unitObj.temp}° 
                 </div>
                 { convertWindDirection(forecast.windDegree, forecast.windSpeed) }
-                { airQualityDisplay }
+                <div>
+                { airQualityDisplay(forecast.aqi) }                
+                </div>
+                <div>
                 { toggleHumidity(forecast.humidity)} 
+                </div>
+                <div>
                 { toggleSunset(forecast.sunset)} 
+                </div>
             </Card.Description>
         </Card.Content>    
     )

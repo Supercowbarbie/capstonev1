@@ -4,7 +4,7 @@ import ForecastCard from "./ForecastCard";
 import Alerts from "./Alerts";
     
 const WeatherSummary = (props) => {
-    console.log(props)
+    // console.log(props)
 
     let forecastDays = [];
     const forecast = {...props.forecastInfo}
@@ -15,7 +15,7 @@ const WeatherSummary = (props) => {
                     <ForecastCard 
                     forecastInfo={ props.forecastInfo[day] } 
                     inputParams={ props.inputParams } 
-                    AQIForecast= { props.AQIForecast }
+                    // AQIForecast= { props.AQIForecast }
                     />
                 </Card>
             )
@@ -63,7 +63,7 @@ const WeatherSummary = (props) => {
                 />
             </Card.Group>
             
-            <Card.Group itemsPerRow={4} centered >
+            <Card.Group centered >
 
                 { forecastDays }
                 

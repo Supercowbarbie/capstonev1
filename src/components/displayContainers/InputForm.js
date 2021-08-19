@@ -24,6 +24,7 @@ const InputForm = (props) => {
             'clear sky': false,
             'few clouds': false,
             'scattered clouds': false,
+            'overcast clouds': false,
             'broken clouds': false,
             'shower rain': false,
             'rain': false,
@@ -110,7 +111,7 @@ const InputForm = (props) => {
                 control={Input}
                 placeholder='Min Wind Speed'
                 name= 'minWind'
-                onChange={(event) => setInputObj({...inputObj, mixWind: event.target.value})}
+                onChange={(event) => setInputObj({...inputObj, maxWind: event.target.value})}
                 />
                 <Form.Field
                 control={Input}
@@ -161,6 +162,18 @@ const InputForm = (props) => {
                     ...inputObj, weatherConditions: {
                         ...inputObj.weatherConditions, 
                         'few clouds': true,
+                    },})}
+                />
+                <Form.Field
+                control={Checkbox}
+                label='Overcast clouds'
+                value='overcast clouds'
+                name='overcast clouds'
+                checked={inputObj.weatherConditions['overcast clouds'] === true}
+                onChange={(event) => setInputObj({
+                    ...inputObj, weatherConditions: {
+                        ...inputObj.weatherConditions, 
+                        'overcast clouds': true,
                     },})}
                 />
                 <Form.Field
